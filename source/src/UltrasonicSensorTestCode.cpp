@@ -30,13 +30,12 @@
 // OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ////
 
-#include "../include/UltrasonicSensor.hpp"
 
-int main() {
+//int main() {
     // const int ultrasonic_sensor_trigger_pin = 0;
     // const int ultrasonic_sensor_echo_pin = 0;
     
     // UltrasonicSensor ultrasonic_sensor(0, 0, ultrasonic_sensor_trigger_pin, ultrasonic_sensor_echo_pin);
     
-    return 0;
-}
+//    return 0;
+//}

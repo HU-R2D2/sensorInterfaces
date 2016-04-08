@@ -34,8 +34,8 @@
 #include "../../../deps/hwlib/hwlib-demo.h"
 
 int main() {
-    const int pin1 = 11;
-    const int pin2 = 13;
+    int pin1 = 11;
+    // const int pin2 = 13;
     
     hwlib_blink_pin_ms(pin1, 500);
     
