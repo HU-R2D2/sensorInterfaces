@@ -3,16 +3,19 @@
 
 #include "..\..\..\deps\polarview\source\include\CoordinateBearing.hpp"
 
-class Locatable {
-	
-public:
-	Locatable(CoordinateBearing coordinate_bearing) : coordinate_bearing{ coordinate_bearing } {}
+namespace R2D2 {
+   class Locatable {
 
-	CoordinateBearing get_coordinate_bearing() { return coordinate_bearing; }
+   public:
+      Locatable(CoordinateBearing coordinate_bearing) :
+         coordinate_bearing{ coordinate_bearing } {}
 
-private:
-	CoordinateBearing coordinate_bearing;
+      CoordinateBearing get_coordinate_bearing() { return coordinate_bearing; }
 
-};
+   private:
+      CoordinateBearing coordinate_bearing;
+
+   };
+}
 
 #endif //_LOCATABLE_H
