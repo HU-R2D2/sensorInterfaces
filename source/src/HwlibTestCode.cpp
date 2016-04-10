@@ -31,7 +31,8 @@
 ////
 
 #include "../../../deps/hwlib/hwlib.h"
-#include "../../../deps/hwlib/hwlib-demo.h"
+
+#include "../../../deps/hwlib/hwlib-demo.inc"
 
 int main() {
     int pin1 = 11;

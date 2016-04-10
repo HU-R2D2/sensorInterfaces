@@ -12,13 +12,16 @@ include_directories(
   ../deps/gtest-1.7.0
   ../deps/hwlib)
 
-link_directories(../deps/gtest-1.7.0/src
+link_directories(
+  ../deps/gtest-1.7.0/src
   ../deps/hwlib)
+
 ADD_LIBRARY(gtest ../deps/gtest-1.7.0/src/gtest-all.cc)
 ADD_LIBRARY(gtest_main ../deps/gtest-1.7.0/src/gtest_main.cc)
-ADD_LIBRARY(hwlib ../deps/hwlib/hwlib.c)
+ADD_LIBRARY(hwlib "../deps/hwlib/hwlib.c")
 
 add_executable(sensorInterfaces ${SOURCES})
 add_executable(sensorInterfaces_test ${GTEST} ${SOURCES_GTEST})
-target_link_libraries(sensorInterfaces_test gtest gtest_main hwlib)
+
 target_link_libraries(sensorInterfaces hwlib)
+target_link_libraries(sensorInterfaces_test hwlib)
