@@ -29,10 +29,10 @@
 // LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
 // OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ////
-
-#include "../../../deps/hwlib/hwlib.h"
-
-#include "../../../deps/hwlib/hwlib-demo.inc"
+extern "C" {
+    #include "../../../deps/hwlib/hwlib.c"
+    #include "../../../deps/hwlib/hwlib-demo.inc"
+}
 
 int main() {
     int pin1 = 11;
