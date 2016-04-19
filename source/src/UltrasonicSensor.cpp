@@ -19,6 +19,13 @@ UltrasonicSensor::UltrasonicSensor (
 
 r2d2::Length UltrasonicSensor::get_distance()
 {
+pin_direction_set_output(signal);
+while (1) {
+pin_set(signal, true);
+wait_ms(1000);
+pin_set(signal, false);
+wait_ms(1000);
+}
     
     // Set the signal pin direction to output
     pin_direction_set_output(signal);

@@ -31,9 +31,10 @@
 ////
 
 
-#include "hwlib.c"
 #include "../include/UltrasonicSensor.hpp"
 #include <iostream>
+#include "hwlib.c"
+
 int main() {
     // const int ultrasonic_sensor_trigger_pin = 0;
     // const int ultrasonic_sensor_echo_pin = 0;
@@ -41,6 +42,18 @@ int main() {
     // UltrasonicSensor ultrasonic_sensor(0, 0, ultrasonic_sensor_trigger_pin, ultrasonic_sensor_echo_pin);
     
 bcm2835_init();
+
+/*pin_direction_set_output(RPI_V2_GPIO_P1_03);
+while(1) {
+pin_set(RPI_V2_GPIO_P1_03, true);
+wait_ms(1000);
+pin_set(RPI_V2_GPIO_P1_03, false);
+wait_ms(1000);
+}*/
+
+R2D2::UltrasonicSensor u(0, 0, RPI_V2_GPIO_P1_03, 0);
+u.get_distance();
+//ultrasonic_sensor.get_distance();
 
 std::cout << "Hello world!" << std::endl;
     return 0;

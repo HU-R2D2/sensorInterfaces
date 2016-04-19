@@ -34,9 +34,7 @@
 #define _ULTRASONIC_SENSOR_H
 
 #include "LocatedDistanceSensor.hpp"
-/*extern "C" {
-#include "../../../deps/hwlib/hwlib.c"
-}*/
+#include "hwlib.h"
 #include "Length.hpp"
 #include "Speed.hpp"
 #include "Clock.hpp"
