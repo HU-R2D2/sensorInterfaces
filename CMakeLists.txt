@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.9)
 project(sharedInterfaces)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11 -Wall -Wno-comment -Wno-missing-field-initializers -pedantic")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11 -Wall -Wno-comment -Wno-missing-field-initializers -pedantic -fpermissive")
 
 file(GLOB SOURCES "source/include/*.hpp" "source/src/*.cpp")
 file(GLOB SOURCES_GTEST "source/include/*.hpp" "test/*.cpp" "test/*.hpp")
