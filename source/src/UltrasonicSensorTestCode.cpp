@@ -30,6 +30,8 @@
 // OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ////
 
+
+#include "hwlib.c"
 #include "../include/UltrasonicSensor.hpp"
 #include <iostream>
 int main() {
@@ -37,6 +39,9 @@ int main() {
     // const int ultrasonic_sensor_echo_pin = 0;
     
     // UltrasonicSensor ultrasonic_sensor(0, 0, ultrasonic_sensor_trigger_pin, ultrasonic_sensor_echo_pin);
-    std::cout << "Hello world!" << std::endl;
+    
+bcm2835_init();
+
+std::cout << "Hello world!" << std::endl;
     return 0;
 }

@@ -34,7 +34,9 @@
 #define _ULTRASONIC_SENSOR_H
 
 #include "LocatedDistanceSensor.hpp"
-#include "hwlib.c"
+/*extern "C" {
+#include "../../../deps/hwlib/hwlib.c"
+}*/
 #include "Length.hpp"
 
 namespace R2D2 {
