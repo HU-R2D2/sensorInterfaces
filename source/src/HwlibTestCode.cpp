@@ -35,14 +35,14 @@ extern "C" {
 }
 
 int main() {
-    int pin1 = 0;
+    int pin1 = RPI_V2_GPIO_P1_03;
     // const int pin2 = 13;
     if(!bcm2835_init())
     {
         // error something wrong initializing
     }
 
-    bcm2835_gpio_fsel(pin1, BCM2835_GPIO_FSEL_OUTP)
+    bcm2835_gpio_fsel(pin1, BCM2835_GPIO_FSEL_OUTP);
     hwlib_blink_pin_ms(pin1, 500);
     
     return 0;
