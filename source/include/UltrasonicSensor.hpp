@@ -66,7 +66,8 @@ class UltrasonicSensor : public LocatedDistanceSensor {
         // The pin used for the echo
         int echo;
         // The last TimeStamp that there was a sensor reading
-        TimeStamp lastReadingTimeStamp;
+        TimeStamp lastReadingTimeStamp = Clock::get_current_time(); 
+// TODO: TimeStamp should be 0, not current time. This will result in first 200 us not being able to use this sensor. ADT should fix or we should find other way.
         // Store the temperature used for calculating speed of sound (default of 0)
         double temperature = 0.0;
         

@@ -18,7 +18,7 @@ namespace r2d2 {
     Length UltrasonicSensor::get_distance()
     {
         // If this method gets called within the minimumReadingInterval since previous call, then return an error 
-        if (Clock::get_current_time() - lastReadingTimeStamp) < minimumReadingInterval) {
+        if ((Clock::get_current_time() - lastReadingTimeStamp) < minimumReadingInterval) {
             return errorLength;
         }
         
@@ -93,7 +93,7 @@ namespace r2d2 {
         this->temperature = temperature;
     }
     
-    double UltrasonicSensor::get_temperature(double temperature) {
+    double UltrasonicSensor::get_temperature() {
         return this->temperature;
     }
 
