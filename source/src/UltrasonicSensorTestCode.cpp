@@ -35,6 +35,7 @@
 #include <iostream>
 #include "hwlib.c"
 #include "MapPolarView.hpp"
+#include "DistanceReading.hpp"
 #include "../include/CoordinateAttitude.hpp"
 
 int main() {
@@ -49,8 +50,15 @@ int main() {
     
     while(true) {
         //std::cout << u.get_distance()*100 << std::endl;
-        //std::unique_ptr<r2d2::PolarView> polarView = u.get_data().get_value();
-        std::cout << u.get_data().get_value()->get_distance(coord_attitude.get_attitude().get_yaw()).get_length()*100 << std::endl;
+        std::unique_ptr<r2d2::PolarView> polarView = u.get_data().get_value();
+        r2d2::DistanceReading distanceReading = polarView->get_distance(coord_attitude.get_attitude().get_yaw());
+        if (distanceReading.get_result_type() == r2d2::DistanceReading::ResultType::CHECKED) {
+            std::cout << distanceReading.get_length()*100 << std::endl;
+        } else {
+            std::cout << "=== Reading failed ===" << std::endl;
+        }
+
+        //std::cout << u.get_data().get_value()->get_distance(coord_attitude.get_attitude().get_yaw()).get_length()*100 << std::endl;
         wait_us(210);
     }
 
