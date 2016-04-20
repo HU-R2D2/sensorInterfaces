@@ -53,7 +53,7 @@ wait_ms(1000);
 
 r2d2::UltrasonicSensor u(0, 0, RPI_V2_GPIO_P1_18, RPI_V2_GPIO_P1_18);
 while(true) {
-u.get_distance();
+std::cout << "Distance in main: " << u.get_distance() << std::endl;
 }
 //ultrasonic_sensor.get_distance();
 
