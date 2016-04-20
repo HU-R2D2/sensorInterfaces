@@ -1,5 +1,4 @@
 #include "../include/UltrasonicSensor.hpp"
-#include <iostream> // TODO: Remove later
 
 namespace r2d2 {
 
@@ -12,19 +11,19 @@ namespace r2d2 {
         LocatedDistanceSensor (error_factor, coordinate_attitude),
         signal { signal },
         echo { echo }
-        
+
     {}
 
     Length UltrasonicSensor::get_distance()
     {
-        // If this method gets called within the minimumReadingInterval since previous call, then return an error 
+        // If this method gets called within the minimumReadingInterval since previous call, then return an error
         if ((Clock::get_current_time() - lastReadingTimeStamp) < minimumReadingInterval) {
             return errorLength;
         }
-        
+
         // Set the signal pin direction to output
         pin_direction_set_output(signal);
-        
+
         // Send a pulse on the signal pin
         // Set the signal pin to high
         pin_set(signal, true);
@@ -60,39 +59,35 @@ namespace r2d2 {
                 return errorLength;
             }
         }
-       
+
         // Store the time at which the echo was received
         TimeStamp echoReceivedTimeStamp = Clock::get_current_time();
-        
+
         // Store the lastReadingTimeStamp
         lastReadingTimeStamp = echoReceivedTimeStamp;
 
-        std::cout << std::endl << "Sent: " << signalSentTimeStamp << " Received: " << echoReceivedTimeStamp << " Difference: " << echoReceivedTimeStamp - signalSentTimeStamp << std::endl;
-        
         // Calculate the difference (Duration is in seconds) between the time at which the signal was sent and the time at which we received an echo
         Duration travelTime = echoReceivedTimeStamp - signalSentTimeStamp;
-        
+
         // Calculate the approximate speed of sound in dry (0% humidity) air (m/s at temperatures near 0 degrees Celsius)
         Speed speedOfSound  = (speedOfSoundConstant + (temperatureCoefficient * temperature)) * (Length::METER / Duration::SECOND);
         // Calculate the distance to the object (divided by 2 as the sound travels back and forth)
         Length distance = (travelTime * speedOfSound) / 2;
-        
-        std::cout << "Distance: " << distance << std::endl;
 
         // As Ultrasonic Sensors have a maximum and a minimum distance, we have to check if the calculated distance is within these values.
         // If this is not the case then return the errorLength
         if ((distance < minimumReadingDistance) || (distance > maximumReadingDistance)) {
             return errorLength;
         }
-        
-        // If the distance was within the minimum - maximum range, we return the distance        
+
+        // If the distance was within the minimum - maximum range, we return the distance
         return distance;
     }
-    
+
     void UltrasonicSensor::set_temperature(double temperature) {
         this->temperature = temperature;
     }
-    
+
     double UltrasonicSensor::get_temperature() {
         return this->temperature;
     }

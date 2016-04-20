@@ -45,8 +45,8 @@ int main() {
 
     r2d2::UltrasonicSensor u(0, 0, RPI_V2_GPIO_P1_18, RPI_V2_GPIO_P1_18);
     while(true) {
-        std::cout << "Distance in main: " << u.get_distance() << std::endl;
-        wait_ms(100);
+        std::cout << u.get_distance()*100 << std::endl;
+        wait_us(210);
     }
 
     std::cout << "Hello world!" << std::endl;
