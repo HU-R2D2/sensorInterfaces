@@ -16,6 +16,8 @@ namespace r2d2 {
 
     Sensor<MapPolarView>::SensorResult UltrasonicSensor::get_data() {
          MapPolarView mapPolarView = MapPolarView();
+         DistanceReading distanceReading(get_distance(), DistanceReading::ResultType::CHECKED);
+         mapPolarView.add_distancereading(Angle(0 * Angle::deg), distanceReading);
          Sensor<MapPolarView>::SensorResult sensorResult(0.0, mapPolarView);
          return sensorResult;
     }

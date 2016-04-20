@@ -44,11 +44,10 @@ int main() {
     
     bcm2835_init();
 
-    r2d2::MapPolarView bla();
-
     r2d2::UltrasonicSensor u(0, 0, RPI_V2_GPIO_P1_18, RPI_V2_GPIO_P1_18);
     while(true) {
         std::cout << u.get_distance()*100 << std::endl;
+        std::cout << u.get_data().get_value().get_distance(r2d2::Angle(0 * r2d2::Angle::deg)).get_length()*100 << std::endl;
         wait_us(210);
     }
 

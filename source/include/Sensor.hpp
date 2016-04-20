@@ -24,7 +24,7 @@ namespace r2d2 {
               T value;
       };
 
-      virtual SensorResult get_data();
+      virtual SensorResult get_data() = 0;
 
    private:
       double error_factor;
