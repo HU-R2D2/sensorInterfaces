@@ -55,7 +55,7 @@ class UltrasonicSensor : public LocatedDistanceSensor {
         
         //get_data() override;
         
-        r2d2::Length get_distance();
+        Length get_distance();
         
     private:
         int signal;

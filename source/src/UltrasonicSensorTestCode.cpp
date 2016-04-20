@@ -51,7 +51,7 @@ pin_set(RPI_V2_GPIO_P1_03, false);
 wait_ms(1000);
 }*/
 
-R2D2::UltrasonicSensor u(0, 0, RPI_V2_GPIO_P1_18, RPI_V2_GPIO_P1_18);
+r2d2::UltrasonicSensor u(0, 0, RPI_V2_GPIO_P1_18, RPI_V2_GPIO_P1_18);
 while(true) {
 u.get_distance();
 }
