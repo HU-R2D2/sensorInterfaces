@@ -4,7 +4,7 @@ namespace r2d2 {
 
     UltrasonicSensor::UltrasonicSensor (
             double error_factor,
-            int coordinate_attitude,
+            CoordinateAttitude coordinate_attitude,
             int signal,
             int echo
         ):
@@ -15,10 +15,12 @@ namespace r2d2 {
     {}
 
     DistanceSensor::SensorResult UltrasonicSensor::get_data() {
-         MapPolarView mapPolarView = MapPolarView();
+         std::unique_ptr<PolarView> polarView(new MapPolarView());
+// TODO: Add didn't check
          DistanceReading distanceReading(get_distance(), DistanceReading::ResultType::CHECKED);
-         mapPolarView.add_distancereading(Angle(0 * Angle::deg), distanceReading);
-         DistanceSensor::SensorResult sensorResult(0.0, mapPolarView);
+         Angle yawAngle = coordinate_attitude.get_attitude().get_yaw();
+         polarView->add_distancereading(yawAngle, distanceReading);
+         DistanceSensor::SensorResult sensorResult(error_factor, polarView);
          return sensorResult;
     }
 

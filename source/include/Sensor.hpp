@@ -20,7 +20,7 @@ namespace r2d2 {
             {}
 
             double get_error_factor() { return error_factor; }
-            T get_value() { return value; }
+            T get_value() { return std::move(value); }
 
           private:
               double error_factor;
@@ -29,7 +29,7 @@ namespace r2d2 {
 
       virtual SensorResult get_data() = 0;
 
-   private:
+   protected:
       double error_factor;
 
    };

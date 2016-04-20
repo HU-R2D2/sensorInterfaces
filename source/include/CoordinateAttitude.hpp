@@ -21,8 +21,8 @@ public:
         attitude(attitue)
     {}
 
-    Coordinate getCoordinate() { return coordinate; }
-    Attitude getAttitude() { return attitude; }
+    Coordinate get_coordinate() { return coordinate; }
+    Attitude get_attitude() { return attitude; }
 
 };
 
