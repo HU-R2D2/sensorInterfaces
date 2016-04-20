@@ -39,34 +39,35 @@
 #include "Speed.hpp"
 #include "Clock.hpp"
 #include "TimeStamp.hpp"
+#include "MapPolarView.hpp"
 
 
 namespace r2d2 {
 
 class UltrasonicSensor : public LocatedDistanceSensor {
-    
+
     public:
         UltrasonicSensor (
             double error_factor,
             int coordinate_attitude,
-            int signal, 
+            int signal,
             int echo
         );
-        
-        //get_data() override;
-        
+
+        Sensor<MapPolarView>::SensorResult get_data() override;
+
         Length get_distance();
-        
+
         void set_temperature(double temperature);
         double get_temperature();
-        
+
     private:
         // The pin used for the signal
         int signal;
         // The pin used for the echo
         int echo;
         // The last TimeStamp that there was a sensor reading
-        TimeStamp lastReadingTimeStamp = Clock::get_current_time(); 
+        TimeStamp lastReadingTimeStamp = Clock::get_current_time();
 // TODO: TimeStamp should be 0, not current time. This will result in first 200 us not being able to use this sensor. ADT should fix or we should find other way.
         // Store the temperature used for calculating speed of sound (default of 0)
         double temperature = 0.0;

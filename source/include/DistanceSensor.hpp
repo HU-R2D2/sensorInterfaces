@@ -2,10 +2,10 @@
 #define _DISTANCE_SENSOR_HPP
 
 #include "Sensor.hpp"
-#include "PolarView.hpp"
+#include "MapPolarView.hpp"
 
 namespace r2d2 {
-   class DistanceSensor : public Sensor<r2d2::PolarView> {
+   class DistanceSensor : public Sensor<MapPolarView> {
 
    public:
       DistanceSensor(double error) : Sensor{ error } {}

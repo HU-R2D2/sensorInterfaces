@@ -14,6 +14,12 @@ namespace r2d2 {
 
     {}
 
+    Sensor<MapPolarView>::SensorResult UltrasonicSensor::get_data() {
+         MapPolarView mapPolarView = MapPolarView();
+         Sensor<MapPolarView>::SensorResult sensorResult(0.0, mapPolarView);
+         return sensorResult;
+    }
+
     Length UltrasonicSensor::get_distance()
     {
         // If this method gets called within the minimumReadingInterval since previous call, then return an error
