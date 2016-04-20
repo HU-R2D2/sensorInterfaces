@@ -22,18 +22,18 @@ namespace r2d2 {
          // Length that will hold the distance from the Ultrasonic Sensor
          Length distance;
          // DistanceReading that will hold the distance
-         DistanceReading distanceReading;
+         DistanceReading distanceReading(0*Length::METER, DistanceReading::ResultType::CHECKED);
         try {
             // Call get_distance() to get the current distance from the Ultrasonic Sensor
             distance = get_distance();
-            // Save the DistanceReading with ResultType CHECKED as reading was successful
-            distanceReading = DistanceReading(distance, DistanceReading::ResultType::CHECKED);
+            // Set the Length of the DistanceReading with ResultType CHECKED as reading was successful
+            distanceReading.set_length(distance);
         } catch (OutOfRangeException) {
-            // Save the DistanceReading with ResultType OUT_OF_RANGE as reading was out of range
-            distanceReading = DistanceReading(distance, DistanceReading::ResultType::OUT_OF_RANGE);
+            // Set the ResultType of the DistanceReading to OUT_OF_RANGE as reading was out of range
+            distanceReading.set_result_type(DistanceReading::ResultType::OUT_OF_RANGE);
         } catch (ReadingFailedException) {
-            // Save the DistanceReading with ResultType DIDNT_CHECK as reading failed
-            distanceReading = DistanceReading(distance, DistanceReading::ResultType::DIDNT_CHECK);
+            // Set the ResultType of the DistanceReading to DIDNT_CHECK as reading failed
+            distanceReading.set_result_type(DistanceReading::ResultType::DIDNT_CHECK);
         }
          // Get the yawAngle which we will use as the angle for the DistanceReading
          Angle yawAngle = coordinate_attitude.get_attitude().get_yaw();
@@ -49,7 +49,7 @@ namespace r2d2 {
     Length UltrasonicSensor::get_distance() throw(OutOfRangeException, ReadingFailedException) {
         // If this method gets called within the minimumReadingInterval since previous call, then return an error
         if ((Clock::get_current_time() - lastReadingTimeStamp) < minimumReadingInterval) {
-            throw ReadingFailedException;
+            throw ReadingFailedException();
             //return errorLength;
         }
 
@@ -77,7 +77,7 @@ namespace r2d2 {
         while(!pin_get(echo)) {
             // Time difference between now and waiting for pulse to start the signal is larger than the timeout
             if ((Clock::get_current_time() - waitingForPulseStartTimeStamp) > echoTimeout) {
-                throw ReadingFailedException;
+                throw ReadingFailedException();
                 //return errorLength;
             }
         }
@@ -89,7 +89,7 @@ namespace r2d2 {
         while(pin_get(echo)) {
             // Time difference between now and sending the signal is larger than the timeout
             if ((Clock::get_current_time() - signalSentTimeStamp) > echoTimeout) {
-                throw ReadingFailedException;
+                throw ReadingFailedException();
                 //return errorLength;
             }
         }
@@ -111,7 +111,7 @@ namespace r2d2 {
         // As Ultrasonic Sensors have a maximum and a minimum distance, we have to check if the calculated distance is within these values.
         // If this is not the case then return the errorLength
         if ((distance < minimumReadingDistance) || (distance > maximumReadingDistance)) {
-            throw OutOfRangeException;
+            throw OutOfRangeException();
             //return errorLength;
         }
 

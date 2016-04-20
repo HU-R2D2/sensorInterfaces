@@ -45,18 +45,18 @@
 #include <exception>
 
 namespace r2d2 {
-    
-class OutOfRangeException : public exception {
+
+class OutOfRangeException : public std::exception {
     virtual const char* what() const throw() {
         return "Out of range";
     }
-}
+};
 
-class ReadingFailedException : public exception {
+class ReadingFailedException : public std::exception {
     virtual const char* what() const throw() {
         return "Fuck Hitler";
     }
-}
+};
 
 class UltrasonicSensor : public LocatedDistanceSensor {
 
