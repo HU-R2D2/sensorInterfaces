@@ -1,6 +1,8 @@
 #ifndef _SENSOR_HPP
 #define _SENSOR_HPP
 
+#include <memory>
+
 namespace r2d2 {
    template<class T>
    class Sensor {
@@ -12,12 +14,13 @@ namespace r2d2 {
 
       class SensorResult {
           public:
-              SensorResult(double error_factor, T value) :
-              error_factor{ error_factor },
-              value{ value } {}
+            SensorResult(double error_factor, T& value) :
+                error_factor{ error_factor },
+                value{ std::move(value) }
+            {}
 
-             double get_error_factor() { return error_factor; }
-             T get_value() { return value; }
+            double get_error_factor() { return error_factor; }
+            T get_value() { return value; }
 
           private:
               double error_factor;

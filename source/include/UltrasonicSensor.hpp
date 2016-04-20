@@ -54,7 +54,7 @@ class UltrasonicSensor : public LocatedDistanceSensor {
             int echo
         );
 
-        Sensor<MapPolarView>::SensorResult get_data() override;
+        DistanceSensor::SensorResult get_data() override;
 
         Length get_distance();
 

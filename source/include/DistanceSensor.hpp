@@ -4,8 +4,10 @@
 #include "Sensor.hpp"
 #include "MapPolarView.hpp"
 
+#include <memory>
+
 namespace r2d2 {
-   class DistanceSensor : public Sensor<MapPolarView> {
+   class DistanceSensor : public Sensor<std::unique_ptr<PolarView>> {
 
    public:
       DistanceSensor(double error) : Sensor{ error } {}
