@@ -10,18 +10,21 @@ list(REMOVE_ITEM SOURCES_GTEST ${CMAKE_CURRENT_SOURCE_DIR}/source/src/HwlibTestC
 include_directories(
   ../deps/gtest-1.7.0/include
   ../deps/gtest-1.7.0
-  ../deps/hwlib)
+  ../deps/hwlib
+  ../deps/ADT/source/include)
 
 link_directories(
   ../deps/gtest-1.7.0/src
-  ../deps/hwlib)
+  ../deps/hwlib
+  ../deps/ADT/source/source)
 
 ADD_LIBRARY(gtest ../deps/gtest-1.7.0/src/gtest-all.cc)
 ADD_LIBRARY(gtest_main ../deps/gtest-1.7.0/src/gtest_main.cc)
 ADD_LIBRARY(hwlib "../deps/hwlib/hwlib.c")
+ADD_LIBRARY(ADT "../deps/adt/source/adt-all.cpp")
 
 add_executable(sensorInterfaces ${SOURCES})
-add_executable(sensorInterfaces_test ${GTEST} ${SOURCES_GTEST})
+#add_executable(sensorInterfaces_test ${GTEST} ${SOURCES_GTEST})
 
-target_link_libraries(sensorInterfaces hwlib)
-target_link_libraries(sensorInterfaces_test hwlib)
+target_link_libraries(sensorInterfaces hwlib ADT)
+#target_link_libraries(sensorInterfaces_test hwlib ADT)

@@ -30,20 +30,22 @@
 // OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ////
 extern "C" {
-    #include "../../../deps/hwlib/hwlib.c"
-    #include "../../../deps/hwlib/hwlib-demo.inc"
+    //#include "hwlib.c"
+    //#include "hwlib-demo.inc"
 }
 
-int main() {
-    int pin1 = RPI_V2_GPIO_P1_03;
-    // const int pin2 = 13;
-    if(!bcm2835_init())
-    {
-        // error something wrong initializing
-    }
+#include "Length.hpp"
+#include <iostream>
 
-    bcm2835_gpio_fsel(pin1, BCM2835_GPIO_FSEL_OUTP);
-    hwlib_blink_pin_ms(pin1, 500);
+int main() {
+    r2d2::Length lt = 5.0 * r2d2::Length::METER;
+    std::cout << lt;
+
+    //int pin1 = 2;
+
+    //pin_direction_set_output(pin1);
+
+    //hwlib_blink_pin_ms(pin1, 500);
     
     return 0;
 }
