@@ -46,7 +46,7 @@ public:
     
     SensorResult get_data() override;
     
-    Distance get_distance();
+    r2d2::ADT::Length get_distance();
     
 private:
     int signal;
