@@ -12,12 +12,18 @@ UltrasonicSensor::UltrasonicSensor(
 
 SensorResult<r2d2::ADT::Length> UltrasonicSensor::get_distance()
 {
-    // Set the signal ping to high
+    // Set the signal pin direction to output
+    pin_direction_set_output(signal);
+    
+    // Set the signal pin to high
     pin_set(signal, true);
     
     // Store the time at which the signal was sent
     auto signalSentTimeStamp = Clock::Timestamp();
 
+    // Set the echo pin direction to input (we do this after the signal pin has been set, and thus used, as some sensors use the same pin for signal and echo)
+    pin_direction_set_input(echo);
+    
     // Wait until the echo pin gets set to high (so pin_get() is true)
     while(!pin_get(echo)) {
         // TODO: Maybe sleep?
