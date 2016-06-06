@@ -1,18 +1,37 @@
 cmake_minimum_required(VERSION 2.8.9)
 project(sharedInterfaces)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11 -Wall -Wno-comment -Wno-missing-field-initializers -Werror -pedantic")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11 -Wall -Wno-comment -Wno-missing-field-initializers -fpermissive")
 
 file(GLOB SOURCES "source/include/*.hpp" "source/src/*.cpp")
 file(GLOB SOURCES_GTEST "source/include/*.hpp" "test/*.cpp" "test/*.hpp")
+list(REMOVE_ITEM SOURCES_GTEST ${CMAKE_CURRENT_SOURCE_DIR}/source/src/HwlibTestCode.cpp)
 
 include_directories(
   ../deps/gtest-1.7.0/include
-  ../deps/gtest-1.7.0)
+  ../deps/gtest-1.7.0
+  ../deps/hwlib
+  ../deps/adt/source/include
+  ../deps/clock/source/include
+  ../deps/polarview/source/include
+  )
 
-link_directories(../deps/gtest-1.7.0/src)
+link_directories(
+  ../deps/gtest-1.7.0/src
+  ../deps/hwlib
+  ../deps/adt/source/src
+  ../deps/clock/source/src
+  ../deps/polarview/source/src)
+
 ADD_LIBRARY(gtest ../deps/gtest-1.7.0/src/gtest-all.cc)
 ADD_LIBRARY(gtest_main ../deps/gtest-1.7.0/src/gtest_main.cc)
+ADD_LIBRARY(hwlib "../deps/hwlib/hwlib.c")
+#ADD_LIBRARY(adt "../deps/adt/source/adt-all.cc")
+#ADD_LIBRARY(clock "../deps/clock/source/src/Clock.cpp")
+#ADD_LIBRARY(polarview "../deps/polarview/source/src/..cpp")
 
-add_executable(sensorInterfaces_test ${GTEST} ${SOURCES_GTEST})
-target_link_libraries(sensorInterfaces_test gtest gtest_main)
+add_executable(sensorInterfaces ${SOURCES})
+#add_executable(sensorInterfaces_test ${GTEST} ${SOURCES_GTEST})
+
+target_link_libraries(sensorInterfaces hwlib)
+#target_link_libraries(sensorInterfaces_test hwlib adt clock)

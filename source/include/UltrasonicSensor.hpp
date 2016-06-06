@@ -34,7 +34,8 @@
 #define _ULTRASONIC_SENSOR_H
 
 #include "LocatedDistanceSensor.hpp"
-#include "..\..\..\deps\hwlib\hwlib.h"
+#include "hwlib.c"
+    //#include "hwlib-demo.inc"
 
 class UltrasonicSensor : public LocatedDistanceSensor {
     

@@ -2,7 +2,7 @@
 #define _DISTANCE_SENSOR_H
 
 #include "Sensor.hpp"
-#include "../../../deps/polarview/source/include/PolarView.hpp"
+#include "PolarView.hpp"
 
 namespace R2D2 {
    class DistanceSensor : public Sensor<PolarView> {
