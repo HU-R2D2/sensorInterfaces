@@ -38,6 +38,9 @@
 #include "../../../deps/hwlib/hwlib.c"
 }*/
 #include "Length.hpp"
+#include "Speed.hpp"
+#include "Clock.hpp"
+
 
 namespace R2D2 {
 
@@ -52,7 +55,7 @@ public:
         int echo
     );
     
-    //SensorResult<r2d2::Length> get_data() override;
+    //get_data() override;
     
     r2d2::Length get_distance();
     
