@@ -6,11 +6,13 @@ namespace R2D2 {
    class Sensor {
 
    public:
-      Sensor(double factor) : error_factor{ factor }
-      virtual SensorResult get_data() = 0;
+      Sensor(double factor):
+         error_factor{ factor }
+      {}
+      //virtual T get_data() = 0;
 
-      class SensorResult<T> {
-         SensorResult() error_factor { 0.0f }, value{}
+      class SensorResult {
+        // SensorResult() error_factor { 0.0f }, value{}
             SensorResult(double error_factor, T value) :
             error_factor{ error_factor },
             value{ value } {}
@@ -21,7 +23,7 @@ namespace R2D2 {
       private:
          double error_factor;
          T value;
-      }
+      };
 
    private:
       double error_factor;

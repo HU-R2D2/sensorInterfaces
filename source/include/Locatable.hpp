@@ -1,19 +1,17 @@
 #ifndef _LOCATABLE_H
 #define _LOCATABLE_H
 
-#include "DistanceReading.hpp"
-
 namespace R2D2 {
    class Locatable {
 
    public:
-      Locatable(DistanceReading coordinate_bearing) :
-         coordinate_bearing{ coordinate_bearing } {}
+      Locatable(int coordinate_attitude) :
+         coordinate_attitude{ coordinate_attitude } {}
 
-      DistanceReading get_coordinate_bearing() { return coordinate_bearing; }
+      int get_coordinate_bearing() { return coordinate_attitude; }
 
    private:
-      DistanceReading coordinate_bearing;
+      int coordinate_attitude;
 
    };
 }

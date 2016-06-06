@@ -31,12 +31,12 @@
 ////
 
 #include "../include/UltrasonicSensor.hpp"
-
+#include <iostream>
 int main() {
     // const int ultrasonic_sensor_trigger_pin = 0;
     // const int ultrasonic_sensor_echo_pin = 0;
     
     // UltrasonicSensor ultrasonic_sensor(0, 0, ultrasonic_sensor_trigger_pin, ultrasonic_sensor_echo_pin);
-    
+    std::cout << "Hello world!" << std::endl;
     return 0;
 }

@@ -8,9 +8,9 @@ namespace R2D2 {
    class LocatedDistanceSensor : public DistanceSensor, public Locatable {
 
    public:
-      LocatedDistanceSensor(double error, CoordinateBearing coordinate_bearing) :
+      LocatedDistanceSensor(double error, int coordinate_attitude) :
          DistanceSensor{ error },
-         Locatable{ coordinate_bearing } {}
+         Locatable{ coordinate_attitude } {}
 
    };
 }

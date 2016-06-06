@@ -1,17 +1,25 @@
 #include "../include/UltrasonicSensor.hpp"
 
-UltrasonicSensor::UltrasonicSensor(
-    double error_factor,
-    CoordinateBearing coordinate_bearing,
-    int signal,
-    int echo
+namespace R2D2{
+
+
+UltrasonicSensor::UltrasonicSensor (
+        double error_factor,
+        int coordinate_attitude,
+        int signal,
+        int echo
     ):
-    signal{signal},
-    echo{echo}
+    LocatedDistanceSensor (error_factor, coordinate_attitude),
+    signal { signal },
+    echo { echo }
+    
 {}
 
-SensorResult<r2d2::ADT::Length> UltrasonicSensor::get_distance()
+
+/*
+r2d2::Length UltrasonicSensor::get_distance()
 {
+    
     // Set the signal pin direction to output
     pin_direction_set_output(signal);
     
@@ -36,6 +44,7 @@ SensorResult<r2d2::ADT::Length> UltrasonicSensor::get_distance()
     auto travelTime = echoReceivedTimeStamp - signalSentTimeStamp;
     
     // Calculate the approximate speed of sound in dry (0% humidity) air (m/s at temperatures near 0 degrees Celsius)
+    double temperature = 25.0;
     r2d2::Speed speedOfSound = 331.3 + (0.606 * temperature);
     
     // Calculate the distance to the object (divided by 2 as the sound travels back and forth)
@@ -47,7 +56,10 @@ SensorResult<r2d2::ADT::Length> UltrasonicSensor::get_distance()
     }
     
     // If the distance was not within the maximum - minimum range, we return a length of -1
-    return -1;
+   
+    =
+    return -1
+
 }
-
-
+*/
+}

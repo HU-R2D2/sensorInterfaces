@@ -35,23 +35,28 @@
 
 #include "LocatedDistanceSensor.hpp"
 #include "hwlib.c"
-    //#include "hwlib-demo.inc"
+#include "Length.hpp"
+
+namespace R2D2 {
+
 
 class UltrasonicSensor : public LocatedDistanceSensor {
     
 public:
     UltrasonicSensor (
-        double error_factor, CoordinateBearing coordinate_bearing,
-        int signal, int echo
+        double error_factor,
+        int coordinate_attitude,
+        int signal, 
+        int echo
     );
     
-    SensorResult get_data() override;
+    //SensorResult<r2d2::Length> get_data() override;
     
-    r2d2::ADT::Length get_distance();
+    r2d2::Length get_distance();
     
 private:
     int signal;
     int echo;
 };
-
+}
 #endif //_ULTRASONIC_SENSOR_H
