@@ -42,24 +42,24 @@
 
 namespace R2D2 {
 
-
 class UltrasonicSensor : public LocatedDistanceSensor {
     
-public:
-    UltrasonicSensor (
-        double error_factor,
-        int coordinate_attitude,
-        int signal, 
-        int echo
-    );
-    
-    //get_data() override;
-    
-    r2d2::Length get_distance();
-    
-private:
-    int signal;
-    int echo;
-};
+    public:
+        UltrasonicSensor (
+            double error_factor,
+            int coordinate_attitude,
+            int signal, 
+            int echo
+        );
+        
+        //get_data() override;
+        
+        r2d2::Length get_distance();
+        
+    private:
+        int signal;
+        int echo;
+        // TODO: Keep track of lastReadingTimestamp, as there has to be a minimum of 200 us between readings readingsClock::TimeStamp lastReadingTimeStamp;
+    };
 }
 #endif //_ULTRASONIC_SENSOR_H
