@@ -60,6 +60,7 @@ class UltrasonicSensor : public LocatedDistanceSensor {
     private:
         int signal;
         int echo;
+        std::chrono::time_point<std::chrono::high_resolution_clock> lastReadingTimeStamp;
         // TODO: Keep track of lastReadingTimestamp, as there has to be a minimum of 200 us between readings readings | r2d2::TimeStamp lastReadingTimeStamp;
     };
 }
