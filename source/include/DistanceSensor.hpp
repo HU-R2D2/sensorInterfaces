@@ -5,7 +5,7 @@
 #include "PolarView.hpp"
 
 namespace R2D2 {
-   class DistanceSensor : public Sensor<PolarView> {
+   class DistanceSensor : public Sensor<r2d2::PolarView> {
 
    public:
       DistanceSensor(double error) : Sensor{ error } {}
