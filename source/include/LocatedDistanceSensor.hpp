@@ -4,7 +4,7 @@
 #include "DistanceSensor.hpp"
 #include "Locatable.hpp"
 
-namespace R2D2 {
+namespace r2d2 {
    class LocatedDistanceSensor : public DistanceSensor, public Locatable {
 
    public:

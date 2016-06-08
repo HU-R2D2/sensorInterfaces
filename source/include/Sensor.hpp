@@ -1,7 +1,7 @@
 #ifndef _SENSOR_H
 #define _SENSOR_H
 
-namespace R2D2 {
+namespace r2d2 {
    template<class T>
    class Sensor {
 

@@ -1,7 +1,7 @@
 #include "../include/UltrasonicSensor.hpp"
 #include <iostream> // TODO: Remove later
 
-namespace R2D2{
+namespace r2d2 {
 
 
 UltrasonicSensor::UltrasonicSensor (

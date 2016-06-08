@@ -1,7 +1,7 @@
 #ifndef _LOCATABLE_H
 #define _LOCATABLE_H
 
-namespace R2D2 {
+namespace r2d2 {
    class Locatable {
 
    public:

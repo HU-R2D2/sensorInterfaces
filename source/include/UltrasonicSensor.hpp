@@ -40,7 +40,7 @@
 #include "Clock.hpp"
 
 
-namespace R2D2 {
+namespace r2d2 {
 
 
 class UltrasonicSensor : public LocatedDistanceSensor {
