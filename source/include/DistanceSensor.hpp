@@ -4,7 +4,7 @@
 #include "Sensor.hpp"
 #include "PolarView.hpp"
 
-namespace R2D2 {
+namespace r2d2 {
    class DistanceSensor : public Sensor<r2d2::PolarView> {
 
    public:
