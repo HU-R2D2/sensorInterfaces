@@ -38,6 +38,7 @@
 #include "Length.hpp"
 #include "Speed.hpp"
 #include "Clock.hpp"
+#include "TimeStamp.hpp"
 
 
 namespace R2D2 {
@@ -59,7 +60,7 @@ class UltrasonicSensor : public LocatedDistanceSensor {
     private:
         int signal;
         int echo;
-        // TODO: Keep track of lastReadingTimestamp, as there has to be a minimum of 200 us between readings readingsClock::TimeStamp lastReadingTimeStamp;
+        // TODO: Keep track of lastReadingTimestamp, as there has to be a minimum of 200 us between readings readings | r2d2::TimeStamp lastReadingTimeStamp;
     };
 }
 #endif //_ULTRASONIC_SENSOR_H
