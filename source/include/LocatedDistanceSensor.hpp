@@ -1,5 +1,5 @@
-#ifndef _LOCATED_DISTANCE_SENSOR_H
-#define _LOCATED_DISTANCE_SENSOR_H
+#ifndef _LOCATED_DISTANCE_SENSOR_HPP
+#define _LOCATED_DISTANCE_SENSOR_HPP
 
 #include "DistanceSensor.hpp"
 #include "Locatable.hpp"
@@ -15,4 +15,4 @@ namespace r2d2 {
    };
 }
 
-#endif //_LOCATED_DISTANCE_SENSOR_H
+#endif //_LOCATED_DISTANCE_SENSOR_HPP

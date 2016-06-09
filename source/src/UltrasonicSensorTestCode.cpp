@@ -3,7 +3,7 @@
 //
 // \file UltrasonicSensorTestCode.cpp
 // \date Created: 08-04-16
-// \version 0.1.0
+// \version 0.2.0
 //
 // \author Mathijs van Bremen
 //
@@ -41,22 +41,13 @@ int main() {
     
     // UltrasonicSensor ultrasonic_sensor(0, 0, ultrasonic_sensor_trigger_pin, ultrasonic_sensor_echo_pin);
     
-bcm2835_init();
+    bcm2835_init();
 
-/*pin_direction_set_output(RPI_V2_GPIO_P1_03);
-while(1) {
-pin_set(RPI_V2_GPIO_P1_03, true);
-wait_ms(1000);
-pin_set(RPI_V2_GPIO_P1_03, false);
-wait_ms(1000);
-}*/
+    r2d2::UltrasonicSensor u(0, 0, RPI_V2_GPIO_P1_18, RPI_V2_GPIO_P1_18);
+    while(true) {
+        std::cout << "Distance in main: " << u.get_distance() << std::endl;
+    }
 
-r2d2::UltrasonicSensor u(0, 0, RPI_V2_GPIO_P1_18, RPI_V2_GPIO_P1_18);
-while(true) {
-std::cout << "Distance in main: " << u.get_distance() << std::endl;
-}
-//ultrasonic_sensor.get_distance();
-
-std::cout << "Hello world!" << std::endl;
+    std::cout << "Hello world!" << std::endl;
     return 0;
 }

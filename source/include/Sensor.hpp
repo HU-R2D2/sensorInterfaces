@@ -1,5 +1,5 @@
-#ifndef _SENSOR_H
-#define _SENSOR_H
+#ifndef _SENSOR_HPP
+#define _SENSOR_HPP
 
 namespace r2d2 {
    template<class T>
@@ -31,4 +31,4 @@ namespace r2d2 {
    };
 }
 
-#endif //_SENSOR_H
+#endif //_SENSOR_HPP

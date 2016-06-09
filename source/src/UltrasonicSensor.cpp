@@ -17,12 +17,9 @@ namespace r2d2 {
 
     Length UltrasonicSensor::get_distance()
     {
-        // Timeout after which we will return an error
-        // Duration minimumReadingInterval = Duration(200 * Duration::MILLISECOND / 1000); // TODO: Define in UltrasonicSensor.hpp
-        std::chrono::duration<long, std::micro> minimumReadingInterval = std::chrono::microseconds(200);
-        
-        if (std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - lastReadingTimeStamp) < minimumReadingInterval) {
-            return -1 * Length::CENTIMETER;
+        // If this method gets called within the minimumReadingInterval since previous call, then return an error 
+        if (Clock::get_current_time() - lastReadingTimeStamp) < minimumReadingInterval) {
+            return errorLength;
         }
         
         // Set the signal pin direction to output
@@ -31,89 +28,73 @@ namespace r2d2 {
         // Send a pulse on the signal pin
         // Set the signal pin to high
         pin_set(signal, true);
-        // Wait a certain amount of time
-        wait_us(5); // TODO: Use this method or some Clock method?
+        // Wait the typical amount of time for this input trigger pulse
+        wait_us(inputTriggerPulseTime);
         // Set the signal pin to low
         pin_set(signal, false);
 
         // Set the echo pin direction to input (we do this after the signal pin has been set, and thus used, as some sensors use the same pin for signal and echo)
         pin_direction_set_input(echo);
-        
-        // Timeout after which we will return an error
-        // r2d2::Duration echoTimeout = r2d2::Duration(50 * r2d2::Duration::MILLISECOND); // TODO: Define in UltrasonicSensor.hpp
-        std::chrono::duration<long, std::micro> echoTimeout = std::chrono::milliseconds(50);
 
         // Wait a certain amount of time as reading will start after minimum of 750 us
-        wait_us(500); // TODO: Use this method or some Clock method?
+        wait_us(echoHoldoffTime);
 
         // Store the time at which we start waiting for the pulse to start
-        // r2d2::TimeStamp waitingForPulseStartTimeStamp = r2d2::Clock::get_current_time();
-        std::chrono::time_point<std::chrono::high_resolution_clock> waitingForPulseStartTimeStamp = std::chrono::high_resolution_clock::now();
+        TimeStamp waitingForPulseStartTimeStamp = Clock::get_current_time();
 
         // Wait until the echo pin gets set to high (so pin_get() is true)
         while(!pin_get(echo)) {
-            // TODO: Maybe sleep?
             // Time difference between now and waiting for pulse to start the signal is larger than the timeout
-            // if ((Clock::get_current_time() - waitingForPulseStartTimeStamp > echoTimeout)) {
-                // // Return -1 centimeter (error)
-                // return -1 * Length::CENTIMETER;
-            // }
-            if (std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - waitingForPulseStartTimeStamp) > echoTimeout) {
-                // Return -1 centimeter (error)
-                return -1 * Length::CENTIMETER;
+            if ((Clock::get_current_time() - waitingForPulseStartTimeStamp) > echoTimeout) {
+                return errorLength;
             }
         }
 
         // Store the time at which the signal was sent
-        std::chrono::time_point<std::chrono::high_resolution_clock> signalSentTimeStamp = std::chrono::high_resolution_clock::now();
+        TimeStamp signalSentTimeStamp = Clock::get_current_time();
 
         // Wait until the echo pin gets set to low (so pin_get() is false)
         while(pin_get(echo)) {
-            // TODO: Maybe sleep?
             // Time difference between now and sending the signal is larger than the timeout
-            // if ((Clock::get_current_time() - signalSentTimeStamp) > echoTimeout) {
-                // // Return -1 centimeter (error)
-                // return -1 * Length::CENTIMETER;
-            // }
-            if (std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - signalSentTimeStamp) > echoTimeout) {
-                // Return -1 centimeter (error)
-                return -1 * Length::CENTIMETER;
+            if ((Clock::get_current_time() - signalSentTimeStamp) > echoTimeout) {
+                return errorLength;
             }
         }
        
         // Store the time at which the echo was received
-        std::chrono::time_point<std::chrono::high_resolution_clock> echoReceivedTimeStamp = std::chrono::high_resolution_clock::now();
+        TimeStamp echoReceivedTimeStamp = Clock::get_current_time();
         
         // Store the lastReadingTimeStamp
         lastReadingTimeStamp = echoReceivedTimeStamp;
 
-std::chrono::microseconds msSignal = std::chrono::duration_cast<std::chrono::microseconds>(signalSentTimeStamp.time_since_epoch());
-std::chrono::microseconds msEcho = std::chrono::duration_cast<std::chrono::microseconds>(echoReceivedTimeStamp.time_since_epoch());
-        std::cout << std::endl << "Sent: " << msSignal.count() << " Received: " << msEcho.count() << " Difference: " << msEcho.count() - msSignal.count() << std::endl;
+        std::cout << std::endl << "Sent: " << signalSentTimeStamp << " Received: " << echoReceivedTimeStamp << " Difference: " << echoReceivedTimeStamp - signalSentTimeStamp << std::endl;
         
         // Calculate the difference (Duration is in seconds) between the time at which the signal was sent and the time at which we received an echo
-        std::chrono::duration<long, std::micro> travelTime = std::chrono::duration_cast<std::chrono::microseconds>(echoReceivedTimeStamp - signalSentTimeStamp);
+        Duration travelTime = echoReceivedTimeStamp - signalSentTimeStamp;
         
         // Calculate the approximate speed of sound in dry (0% humidity) air (m/s at temperatures near 0 degrees Celsius)
-        double temperature = 25.0;
-        //r2d2::Speed speedOfSound = 331.3 + (0.606 * temperature);
-        //Speed speedOfSound  = (331.3 + (0.606 * temperature)) * (Length::METER / Duration::SECOND);
-        double speedOfSound = 331.3 + (0.606 * temperature);
+        Speed speedOfSound  = (speedOfSoundConstant + (temperatureCoefficient * temperature)) * (Length::METER / Duration::SECOND);
         // Calculate the distance to the object (divided by 2 as the sound travels back and forth)
-        //Length distance = (travelTime * speedOfSound) / 2 * 1000 * 1000; // travelTime times 1000 * 1000 as travelTime is in microseconds
-        double distance = (travelTime.count() * speedOfSound) / 2 / (1000 * 1000);
-        // Multiply distance by 100 as the distance was in meters and we're interested in centimeters
-        distance = distance * 100; // TODO: Maybe just return Length::METER, as the ADT 'saves' it as meters anyway...
+        Length distance = (travelTime * speedOfSound) / 2;
         
-        std::cout << "Distance: " << distance << " cm" << std::endl;
+        std::cout << "Distance: " << distance << std::endl;
 
-        // As Ultrasonic Sensors have a maximum and a minimum distance, we have to check if the calculated distance is within these values
-        if (2 < distance && distance < 330) {
-            return distance * Length::CENTIMETER;
+        // As Ultrasonic Sensors have a maximum and a minimum distance, we have to check if the calculated distance is within these values.
+        // If this is not the case then return the errorLength
+        if ((distance < minimumReadingDistance) || (distance > maximumReadingDistance)) {
+            return errorLength;
         }
         
-        // If the distance was not within the maximum - minimum range, we return a length of -1        
-        return -1 * Length::CENTIMETER;
+        // If the distance was within the minimum - maximum range, we return the distance        
+        return distance;
+    }
+    
+    void UltrasonicSensor::set_temperature(double temperature) {
+        this->temperature = temperature;
+    }
+    
+    double UltrasonicSensor::get_temperature(double temperature) {
+        return this->temperature;
     }
 
 }

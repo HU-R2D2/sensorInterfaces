@@ -3,7 +3,7 @@
 //
 // \file UltrasonicSensor.hpp
 // \date Created: 08-04-16
-// \version 0.1.0
+// \version 0.2.0
 //
 // \author Mathijs van Bremen
 //
@@ -30,8 +30,8 @@
 // OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ////
 
-#ifndef _ULTRASONIC_SENSOR_H
-#define _ULTRASONIC_SENSOR_H
+#ifndef _ULTRASONIC_SENSOR_HPP
+#define _ULTRASONIC_SENSOR_HPP
 
 #include "LocatedDistanceSensor.hpp"
 #include "hwlib.h"
@@ -57,11 +57,38 @@ class UltrasonicSensor : public LocatedDistanceSensor {
         
         Length get_distance();
         
+        void set_temperature(double temperature);
+        double get_temperature();
+        
     private:
+        // The pin used for the signal
         int signal;
+        // The pin used for the echo
         int echo;
-        std::chrono::time_point<std::chrono::high_resolution_clock> lastReadingTimeStamp;
-        // TODO: Keep track of lastReadingTimestamp, as there has to be a minimum of 200 us between readings readings | r2d2::TimeStamp lastReadingTimeStamp;
+        // The last TimeStamp that there was a sensor reading
+        TimeStamp lastReadingTimeStamp;
+        // Store the temperature used for calculating speed of sound (default of 0)
+        double temperature = 0.0;
+        
+        // Timeout after which we will return an error as sensor readings should have a minimum delay before next measurement of 200 us
+        const Duration minimumReadingInterval = Duration(200 * Duration::MICROSECOND);
+        // Timeout of sending / receiving an echo after which we will return an error
+        const Duration echoTimeout = Duration(50 * Duration::MILLISECOND);
+        // The errorLength we will return when something goes wrong
+        const Length errorLength = -1 * Length::METER;
+        // The input trigger pulse time in us to start a reading
+        const int inputTriggerPulseTime = 5;
+        // The echo holdoff time in us we wait for burst to start.
+        // Note that this value is defined as 750 in the datasheet, but to be sure we use 700 to make sure we don't miss the return pulse
+        const int echoHoldoffTime = 700;
+        // The minimum distance in cm that the sensor can read
+        const Length minimumReadingDistance = 2 * Length::CENTIMETER;
+        // The maximum distance in cm that the sensor can read
+        const Length maximumReadingDistance = 330 * Length::CENTIMETER;
+        // The speed of sound constant used to calculate the speed of sound in dry (0% humidity) air
+        const double speedOfSoundConstant = 331.3;
+        // The temperature coefficient used to calculate the speed of sound in dry (0% humidity) air
+        const double temperatureCoefficient = 0.606;
     };
 }
-#endif //_ULTRASONIC_SENSOR_H
+#endif //_ULTRASONIC_SENSOR_HPP

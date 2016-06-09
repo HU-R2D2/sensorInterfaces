@@ -1,5 +1,5 @@
-#ifndef _LOCATABLE_H
-#define _LOCATABLE_H
+#ifndef _LOCATABLE_HPP
+#define _LOCATABLE_HPP
 
 namespace r2d2 {
    class Locatable {
@@ -16,4 +16,4 @@ namespace r2d2 {
    };
 }
 
-#endif //_LOCATABLE_H
+#endif //_LOCATABLE_HPP

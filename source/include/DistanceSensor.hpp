@@ -1,5 +1,5 @@
-#ifndef _DISTANCE_SENSOR_H
-#define _DISTANCE_SENSOR_H
+#ifndef _DISTANCE_SENSOR_HPP
+#define _DISTANCE_SENSOR_HPP
 
 #include "Sensor.hpp"
 #include "PolarView.hpp"
@@ -12,4 +12,4 @@ namespace r2d2 {
    };
 }
 
-#endif //_DISTANCE_SENSOR_H
+#endif //_DISTANCE_SENSOR_HPP
