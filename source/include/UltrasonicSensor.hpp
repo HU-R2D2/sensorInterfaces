@@ -42,7 +42,21 @@
 #include "CoordinateAttitude.hpp"
 #include "hwlib.h"
 
+#include <exception>
+
 namespace r2d2 {
+    
+class OutOfRangeException : public exception {
+    virtual const char* what() const throw() {
+        return "Out of range";
+    }
+}
+
+class ReadingFailedException : public exception {
+    virtual const char* what() const throw() {
+        return "Fuck Hitler";
+    }
+}
 
 class UltrasonicSensor : public LocatedDistanceSensor {
 
@@ -56,7 +70,7 @@ class UltrasonicSensor : public LocatedDistanceSensor {
 
         DistanceSensor::SensorResult get_data() override;
 
-        Length get_distance();
+        Length get_distance() throw(OutOfRangeException, ReadingFailedException);
 
         void set_temperature(double temperature);
         double get_temperature();
