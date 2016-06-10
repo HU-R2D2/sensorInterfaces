@@ -1,8 +1,6 @@
 #include "../include/UltrasonicSensor.hpp"
 
 namespace r2d2 {
-// TODO: Return different sorts of error lengths so we can set the correct DistanceReading::ResultType
-// TODO: Perhaps no error lengths but use exceptions instead :-) (Stephan ideas inc.)
     UltrasonicSensor::UltrasonicSensor (
             double error_factor,
             CoordinateAttitude coordinate_attitude,
@@ -23,18 +21,18 @@ namespace r2d2 {
          Length distance;
          // DistanceReading that will hold the distance
          DistanceReading distanceReading(0*Length::METER, DistanceReading::ResultType::CHECKED);
-        try {
-            // Call get_distance() to get the current distance from the Ultrasonic Sensor
-            distance = get_distance();
-            // Set the Length of the DistanceReading with ResultType CHECKED as reading was successful
-            distanceReading.set_length(distance);
-        } catch (OutOfRangeException) {
-            // Set the ResultType of the DistanceReading to OUT_OF_RANGE as reading was out of range
-            distanceReading.set_result_type(DistanceReading::ResultType::OUT_OF_RANGE);
-        } catch (ReadingFailedException) {
-            // Set the ResultType of the DistanceReading to DIDNT_CHECK as reading failed
-            distanceReading.set_result_type(DistanceReading::ResultType::DIDNT_CHECK);
-        }
+         try {
+             // Call get_distance() to get the current distance from the Ultrasonic Sensor
+             distance = get_distance();
+             // Set the Length of the DistanceReading with ResultType CHECKED as reading was successful
+             distanceReading.set_length(distance);
+         } catch (OutOfRangeException) {
+             // Set the ResultType of the DistanceReading to OUT_OF_RANGE as reading was out of range
+             distanceReading.set_result_type(DistanceReading::ResultType::OUT_OF_RANGE);
+         } catch (ReadingFailedException) {
+             // Set the ResultType of the DistanceReading to DIDNT_CHECK as reading failed
+             distanceReading.set_result_type(DistanceReading::ResultType::DIDNT_CHECK);
+         }
          // Get the yawAngle which we will use as the angle for the DistanceReading
          Angle yawAngle = coordinate_attitude.get_attitude().get_yaw();
 
@@ -47,10 +45,9 @@ namespace r2d2 {
     }
 
     Length UltrasonicSensor::get_distance() throw(OutOfRangeException, ReadingFailedException) {
-        // If this method gets called within the minimumReadingInterval since previous call, then return an error
+        // If this method gets called within the minimumReadingInterval since previous call, then throw an exception
         if ((Clock::get_current_time() - lastReadingTimeStamp) < minimumReadingInterval) {
             throw ReadingFailedException();
-            //return errorLength;
         }
 
         // Set the signal pin direction to output
@@ -78,7 +75,6 @@ namespace r2d2 {
             // Time difference between now and waiting for pulse to start the signal is larger than the timeout
             if ((Clock::get_current_time() - waitingForPulseStartTimeStamp) > echoTimeout) {
                 throw ReadingFailedException();
-                //return errorLength;
             }
         }
 
@@ -90,7 +86,6 @@ namespace r2d2 {
             // Time difference between now and sending the signal is larger than the timeout
             if ((Clock::get_current_time() - signalSentTimeStamp) > echoTimeout) {
                 throw ReadingFailedException();
-                //return errorLength;
             }
         }
 
@@ -109,10 +104,9 @@ namespace r2d2 {
         Length distance = (travelTime * speedOfSound) / 2;
 
         // As Ultrasonic Sensors have a maximum and a minimum distance, we have to check if the calculated distance is within these values.
-        // If this is not the case then return the errorLength
+        // If this is not the case then return an exception
         if ((distance < minimumReadingDistance) || (distance > maximumReadingDistance)) {
             throw OutOfRangeException();
-            //return errorLength;
         }
 
         // If the distance was within the minimum - maximum range, we return the distance

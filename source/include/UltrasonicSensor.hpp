@@ -54,7 +54,7 @@ class OutOfRangeException : public std::exception {
 
 class ReadingFailedException : public std::exception {
     virtual const char* what() const throw() {
-        return "Fuck Hitler";
+        return "Reading failed";
     }
 };
 
@@ -90,8 +90,6 @@ class UltrasonicSensor : public LocatedDistanceSensor {
         const Duration minimumReadingInterval = Duration(200 * Duration::MICROSECOND);
         // Timeout of sending / receiving an echo after which we will return an error
         const Duration echoTimeout = Duration(50 * Duration::MILLISECOND);
-        // The errorLength we will return when something goes wrong
-        const Length errorLength = -1 * Length::METER;
         // The input trigger pulse time in us to start a reading
         const int inputTriggerPulseTime = 5;
         // The echo holdoff time in us we wait for burst to start.
