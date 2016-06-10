@@ -1,6 +1,8 @@
 #ifndef _SENSOR_HPP
 #define _SENSOR_HPP
 
+#include <memory>
+
 namespace r2d2 {
    template<class T>
    class Sensor {
@@ -9,21 +11,28 @@ namespace r2d2 {
       Sensor(double factor):
          error_factor{ factor }
       {}
+<<<<<<< Updated upstream
       //virtual T get_data() = 0;
+=======
+>>>>>>> Stashed changes
 
       class SensorResult {
-        // SensorResult() error_factor { 0.0f }, value{}
-            SensorResult(double error_factor, T value) :
-            error_factor{ error_factor },
-            value{ value } {}
+      public:
+            SensorResult() {}
+            SensorResult(double error_factor, T& value) :
+                error_factor{ error_factor },
+                value{ std::move(value) }
+            {}
 
-         double get_error_factor() { return error_factor; }
-         T get_value() { return value; }
+            double get_error_factor() { return error_factor; }
+            T get_value() { return value; }
 
       private:
          double error_factor;
          T value;
       };
+
+      virtual SensorResult get_data() = 0;
 
    private:
       double error_factor;
@@ -31,4 +40,8 @@ namespace r2d2 {
    };
 }
 
+<<<<<<< Updated upstream
 #endif //_SENSOR_HPP
+=======
+#endif //_SENSOR_H
+>>>>>>> Stashed changes
