@@ -45,20 +45,76 @@
 
 #include "../include/VirtualLidar.hpp"
 
-r2d2::VirtualLidar::VirtualLidar(LockingSharedObject<ReadOnlyMap>& map) :
-    LocatedDistanceSensor(0, r2d2::CoordinateAttitude()),
+#include <cmath>
+#include <limits>
+
+
+class Point {
+public:
+    double x;
+    double y;
+    Point(double x, double y) : x(x), y(y) {}
+    static double distance(const Point& a, const Point& b) {
+        return std::sqrt((b.x-a.x)*(b.x-a.x) + (b.y-a.y)*(b.y-a.y));
+    }
+};
+
+r2d2::VirtualLidar::VirtualLidar(LockingSharedObject<ArrayBoxMap>& map, CoordinateAttitude position) :
+    LocatedDistanceSensor(0, position),
     map(map)
 {
-
 }
 
-r2d2::MapPolarView r2d2::VirtualLidar::get_data()
+Point calculatePointOnBoundary(Point topLeft, Point bottomRight, Point start, r2d2::Angle angle)
 {
-    MapPolarView returnValue;
+    // Calculate intersections with box walls
+    double vx = std::cos(angle.get_angle());
+    double vy = std::sin(angle.get_angle());
+
+    double t1 = (topLeft.x - start.x) / vx; //left
+    double t2 = (bottomRight.x - start.x) / vx; //right
+    double t3 = (topLeft.y - start.y) / vy; //top
+    double t4 = (bottomRight.y - start.y) / vy; //bottom
+
+    double t = std::numeric_limits<double>::max();
+
+    if(t1 >= 0 && t1 < t)
+        t = t1;
+    if(t2 >= 0 && t2 < t)
+        t = t2;
+    if(t3 >= 0 && t3 < t)
+        t = t3;
+    if(t4 >= 0 && t4 < t)
+        t = t4;
+
+    return Point(start.x+t*vx, start.y+t*vy);
+}
+
+r2d2::DistanceSensor::SensorResult r2d2::VirtualLidar::get_data()
+{
+    std::unique_ptr<PolarView> polarView(new MapPolarView());
+    r2d2::DistanceSensor::SensorResult returnValue(0, polarView);
+
     // Lock map
+    LockingSharedObject<ArrayBoxMap>::Accessor accessor(map);
+    const Box boundingBox = accessor.access().get_map_bounding_box();
+    const Point topLeft(boundingBox.get_bottom_left().get_x() / Length::METER, boundingBox.get_top_right().get_y() / Length::METER);
+    const Point topRight(boundingBox.get_top_right().get_x() / Length::METER, boundingBox.get_top_right().get_y() / Length::METER);
+    const Point bottomLeft(boundingBox.get_bottom_left().get_x() / Length::METER, boundingBox.get_bottom_left().get_y() / Length::METER);
+    const Point bottomRight(boundingBox.get_top_right().get_x() / Length::METER, boundingBox.get_bottom_left().get_y() / Length::METER);
 
+    Point middle(coordinate_attitude.getCoordinate().get_x() / Length::METER, coordinate_attitude.getCoordinate().get_y() / Length::METER);
 
+    // scan 360 degrees
+    for(int i = 0; i < 1; i++) {
+        Point p = calculatePointOnBoundary(topLeft, bottomRight, middle, i*Angle::deg);
+//        std::cout << i << ": (" << p.x << ", " << p.y << ")" << std::endl;
 
-    // Unlock map
+        double angle = i;
+        double length = Point::distance(p, middle);
+        std::cout << length << std::endl;
+    }
+
+    // Unlock map automatically
     return returnValue;
 }

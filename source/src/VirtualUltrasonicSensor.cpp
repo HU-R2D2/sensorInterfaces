@@ -45,19 +45,21 @@
 
 #include "../include/VirtualUltrasonicSensor.hpp"
 
-r2d2::VirtualUltrasonicSensor::VirtualUltrasonicSensor(LockingSharedObject<ReadOnlyMap>& map) :
+r2d2::VirtualUltrasonicSensor::VirtualUltrasonicSensor(LockingSharedObject<ArrayBoxMap>& map) :
     LocatedDistanceSensor(0, r2d2::CoordinateAttitude()),
     map(map)
 {
 	
 }
 
-r2d2::MapPolarView r2d2::VirtualUltrasonicSensor::get_data()
+r2d2::DistanceSensor::SensorResult r2d2::VirtualUltrasonicSensor::get_data()
 {
-	MapPolarView returnValue;
+    std::unique_ptr<PolarView> polarView(new MapPolarView());
+    r2d2::DistanceSensor::SensorResult returnValue(0, polarView);
 	// Lock map
 
 	// check for data
+
 
 	// Unlock map
 	return returnValue;
