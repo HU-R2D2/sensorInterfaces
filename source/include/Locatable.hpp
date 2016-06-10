@@ -11,7 +11,7 @@ namespace r2d2 {
          coordinate_attitude(coordinate_attitude) {}
 
       CoordinateAttitude get_coordinate_attitude() { return coordinate_attitude; }
-   private:
+   protected:
       CoordinateAttitude coordinate_attitude;
    };
 }
