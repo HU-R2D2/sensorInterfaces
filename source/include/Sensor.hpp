@@ -11,10 +11,6 @@ namespace r2d2 {
       Sensor(double factor):
          error_factor{ factor }
       {}
-<<<<<<< Updated upstream
-      //virtual T get_data() = 0;
-=======
->>>>>>> Stashed changes
 
       class SensorResult {
       public:
@@ -40,8 +36,4 @@ namespace r2d2 {
    };
 }
 
-<<<<<<< Updated upstream
 #endif //_SENSOR_HPP
-=======
-#endif //_SENSOR_H
->>>>>>> Stashed changes
