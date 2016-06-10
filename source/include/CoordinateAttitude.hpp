@@ -1,5 +1,5 @@
-#ifndef COORDINATEATTITUDE_H
-#define COORDINATEATTITUDE_H
+#ifndef COORDINATEATTITUDE_HPP
+#define COORDINATEATTITUDE_HPP
 
 #include "Coordinate.hpp"
 #include "Attitude.hpp"
@@ -16,9 +16,9 @@ public:
         coordinate(0*Length::METER,0*Length::METER,0*Length::METER),
         attitude()
     {}
-    CoordinateAttitude(Coordinate coordinate, Attitude attitue) :
+    CoordinateAttitude(Coordinate coordinate, Attitude attitude) :
         coordinate(coordinate),
-        attitude(attitue)
+        attitude(attitude)
     {}
 
     Coordinate get_coordinate() { return coordinate; }
@@ -28,4 +28,4 @@ public:
 
 }
 
-#endif //COORDINATEATTITUDE_H
+#endif //COORDINATEATTITUDE_HPP

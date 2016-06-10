@@ -34,13 +34,13 @@
 #define _ULTRASONIC_SENSOR_HPP
 
 #include "LocatedDistanceSensor.hpp"
-#include "hwlib.h"
 #include "Length.hpp"
 #include "Speed.hpp"
 #include "Clock.hpp"
 #include "TimeStamp.hpp"
 #include "MapPolarView.hpp"
 #include "CoordinateAttitude.hpp"
+#include "hwlib.h"
 
 namespace r2d2 {
 
