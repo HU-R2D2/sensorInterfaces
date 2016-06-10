@@ -1,10 +1,11 @@
 #include "../include/UltrasonicSensor.hpp"
 
 namespace r2d2 {
-
+// TODO: Return different sorts of error lengths so we can set the correct DistanceReading::ResultType
+// TODO: Perhaps no error lengths but use exceptions instead :-) (Stephan ideas inc.)
     UltrasonicSensor::UltrasonicSensor (
             double error_factor,
-            int coordinate_attitude,
+            CoordinateAttitude coordinate_attitude,
             int signal,
             int echo
         ):
@@ -13,6 +14,31 @@ namespace r2d2 {
         echo { echo }
 
     {}
+
+    DistanceSensor::SensorResult UltrasonicSensor::get_data() {
+         // Create a PolarView to hold the data
+         std::unique_ptr<PolarView> polarView(new MapPolarView());
+
+         // Get the current distance from the Ultrasonic Sensor
+         Length distance = get_distance();
+         // Create a DistanceReading that holds the distance
+         DistanceReading distanceReading(distance, DistanceReading::ResultType::CHECKED);
+         // If the distance we got was an error length (Length does not support
+         // "operator==" so we check if the distance was below 0m.
+         if (distance < (0 * Length::METER)) {
+             // Set the result type as "DIDNT_CHECK" as we received an error
+             distanceReading.set_result_type(DistanceReading::ResultType::DIDNT_CHECK);
+         }
+         // Get the yawAngle which we will use as the angle for the DistanceReading
+         Angle yawAngle = coordinate_attitude.get_attitude().get_yaw();
+
+         // Add the DistanceReading to the PolarView at the yawAngle
+         polarView->add_distancereading(yawAngle, distanceReading);
+         // Create a SensorResult for this reading
+         DistanceSensor::SensorResult sensorResult(error_factor, polarView);
+         // Return the SensorResult
+         return sensorResult;
+    }
 
     Length UltrasonicSensor::get_distance()
     {
