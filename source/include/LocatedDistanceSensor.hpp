@@ -3,12 +3,13 @@
 
 #include "DistanceSensor.hpp"
 #include "Locatable.hpp"
+#include "CoordinateAttidude.hpp"
 
 namespace r2d2 {
    class LocatedDistanceSensor : public DistanceSensor, public Locatable {
 
    public:
-      LocatedDistanceSensor(double error, int coordinate_attitude) :
+      LocatedDistanceSensor(double error, CoordinateAttidude coordinate_attitude) :
          DistanceSensor{ error },
          Locatable{ coordinate_attitude } {}
 

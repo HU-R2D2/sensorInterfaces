@@ -42,8 +42,9 @@ int main() {
     // UltrasonicSensor ultrasonic_sensor(0, 0, ultrasonic_sensor_trigger_pin, ultrasonic_sensor_echo_pin);
     
     bcm2835_init();
-
-    r2d2::UltrasonicSensor u(0, 0, RPI_V2_GPIO_P1_18, RPI_V2_GPIO_P1_18);
+    CoordinateAttitude coord_attitude();
+    r2d2::UltrasonicSensor u(0, coord_attitude, RPI_V2_GPIO_P1_18, RPI_V2_GPIO_P1_18);
+    
     while(true) {
         std::cout << u.get_distance()*100 << std::endl;
         wait_us(210);

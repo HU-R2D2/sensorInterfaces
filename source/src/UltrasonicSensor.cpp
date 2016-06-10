@@ -4,7 +4,7 @@ namespace r2d2 {
 
     UltrasonicSensor::UltrasonicSensor (
             double error_factor,
-            int coordinate_attitude,
+            CoordinateAttitude coordinate_attitude,
             int signal,
             int echo
         ):

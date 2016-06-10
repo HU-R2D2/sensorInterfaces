@@ -1,7 +1,7 @@
 #ifndef _LOCATABLE_HPP
 #define _LOCATABLE_HPP
 
-#include "../include/CoordinateAttitude.hpp"
+#include "CoordinateAttitude.hpp"
 
 namespace r2d2 {
    class Locatable {

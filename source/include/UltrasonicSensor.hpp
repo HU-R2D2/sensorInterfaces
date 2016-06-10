@@ -39,6 +39,7 @@
 #include "Speed.hpp"
 #include "Clock.hpp"
 #include "TimeStamp.hpp"
+#include "CoordinateAttitude.hpp"
 
 
 namespace r2d2 {
@@ -48,7 +49,7 @@ class UltrasonicSensor : public LocatedDistanceSensor {
     public:
         UltrasonicSensor (
             double error_factor,
-            int coordinate_attitude,
+            CoordinateAttitude coordinate_attitude,
             int signal, 
             int echo
         );
