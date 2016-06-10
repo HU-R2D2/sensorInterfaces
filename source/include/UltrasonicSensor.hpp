@@ -1,34 +1,50 @@
-////                                                                                                                                        
-// Roborescue
-//
-// \file UltrasonicSensor.hpp
-// \date Created: 08-04-16
-// \version 0.2.0
-//
-// \author Mathijs van Bremen
-//
-// \section LICENSE
-// License: newBSD
-//
-// Copyright © 2016, HU University of Applied Sciences Utrecht.
-// All rights reserved.
-//
-// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-// - Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-// - Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-// - Neither the name of the HU University of Applied Sciences Utrecht nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-//
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
-// THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-// ARE DISCLAIMED. IN NO EVENT SHALL THE HU UNIVERSITY OF APPLIED SCIENCES UTRECHT
-// BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
-// GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-// HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-// LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
-// OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-////
+//! \addtogroup 0017 SensorInterfaces
+//! \brief Interface for sensors
+//!
+//! One of the interfaces that need to be defined early on are the interfaces  
+//! for the various types of sensors. One of the aspirations of 
+//! R2D2 is modularity and for that we need to define the interface for sensors
+//! like DistanceSensors, PositionSensors and SpeedSensors. 
+//!
+//! \file   .hpp
+//! \author 
+//! \date   Created: 20-04-2016
+//! \date   Last Modified: 10-06-2016
+//! \brief  <Short description of class>
+//!
+//! <Description of class>
+//!
+//! \copyright Copyright © 2016, HU University of Applied Sciences Utrecht. 
+//! All rights reserved.
+//! 
+//! License: newBSD
+//!
+//! Redistribution and use in source and binary forms, 
+//! with or without modification, are permitted provided that 
+//! the following conditions are met:
+//! - Redistributions of source code must retain the above copyright notice, 
+//!   this list of conditions and the following disclaimer.
+//! - Redistributions in binary form must reproduce the above copyright notice, 
+//!   this list of conditions and the following disclaimer in the documentation 
+//!   and/or other materials provided with the distribution.
+//! - Neither the name of the HU University of Applied Sciences Utrecht 
+//!   nor the names of its contributors may be used to endorse or promote 
+//!   products derived from this software without specific prior written 
+//!   permission.
+//!
+//! THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+//! "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, 
+//! BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY 
+//! AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+//! IN NO EVENT SHALL THE HU UNIVERSITY OF APPLIED SCIENCES UTRECHT
+//! BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+//! CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, 
+//! PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; 
+//! OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
+//! WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR 
+//! OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
+//! EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// ~< HEADER_VERSION 2016 04 12 >~
 
 #ifndef _ULTRASONIC_SENSOR_HPP
 #define _ULTRASONIC_SENSOR_HPP
@@ -82,7 +98,7 @@ class UltrasonicSensor : public LocatedDistanceSensor {
         int echo;
         // The last TimeStamp that there was a sensor reading
         TimeStamp lastReadingTimeStamp = Clock::get_current_time();
-// TODO: TimeStamp should be 0, not current time. This will result in first 200 us not being able to use this sensor. ADT should fix or we should find other way.
+        // TODO: TimeStamp should be 0, not current time. This will result in first 200 us not being able to use this sensor. ADT should fix or we should find other way.
         // Store the temperature used for calculating speed of sound (default of 0)
         double temperature = 0.0;
         
