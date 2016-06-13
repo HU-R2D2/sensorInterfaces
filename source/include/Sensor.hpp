@@ -6,13 +6,15 @@
 //! R2D2 is modularity and for that we need to define the interface for sensors
 //! like DistanceSensors, PositionSensors and SpeedSensors. 
 //!
-//! \file   .hpp
-//! \author 
+//! \file   Sensor.hpp
+//! \author Mathijs van Bremen - 1665553
 //! \date   Created: 20-04-2016
-//! \date   Last Modified: 10-06-2016
-//! \brief  <Short description of class>
+//! \date   Last Modified: 13-06-2016
+//! \brief  Interface for sensors: base class of all sensors
 //!
-//! <Description of class>
+//! This is the base class for all sensors. To use this class you should define 
+//! the template used by this Sensor. This template class will then be returned
+//! by the get_data() method which should be overridden.
 //!
 //! \copyright Copyright © 2016, HU University of Applied Sciences Utrecht. 
 //! All rights reserved.
@@ -54,32 +56,60 @@
 namespace r2d2 {
     template<class T>
     
+    //! \class Sensor
+    //! \brief Interface for a sensor
     class Sensor {
 
-    public:
-        Sensor(double factor):
-        error_factor{ factor }
-        {}
-
-        class SensorResult {
         public:
-            SensorResult(double error_factor, T& value) :
-            error_factor{ error_factor },
-            value{ std::move(value) }
+            //! \brief Constructs a Sensor with a certain error factor
+            //!
+            //! \param factor The error factor of this sensor
+            Sensor(double factor):
+            error_factor{ factor }
             {}
 
-            double get_error_factor() { return error_factor; }
-            T get_value() { return std::move(value); }
+            //! \class SensorResult
+            //! \brief SensorResult containing an error factor and a value of 
+            //! the defined template
+            class SensorResult {
+                public:
+                    //! \brief Constructs a SensorResult with a certain error
+                    //! factor and a value of the defined template
+                    //!
+                    //! \param error_factor The error factor of this sensor
+                    //! \param value The value of defined template of the result
+                    SensorResult(double error_factor, T& value) :
+                        error_factor{ error_factor },
+                        value{ std::move(value) }
+                    {}
 
-        private:
+                    //! \brief Method to get the error factor distance from the 
+                    //! sensor
+                    //!
+                    //! \return double The error factor that has been set
+                    double get_error_factor() { return error_factor; }
+
+                    //! \brief Method to get the value from the sensor
+                    //!
+                    //! \return T The value of defined template that has been 
+                    //! set
+                    T get_value() { return std::move(value); }
+
+                private:
+                    //! The error factor of this sensor
+                    double error_factor;
+                    //! The value of defined template of this SensorResult
+                    T value;
+            };
+
+            //! \brief Method to get the data from the sensor
+            //!
+            //! \return SensorResult SensorResult from this specific sensor
+            virtual SensorResult get_data() = 0;
+
+        protected:
+            //! The error factor of this sensor
             double error_factor;
-            T value;
-        };
-
-        virtual SensorResult get_data() = 0;
-
-    protected:
-        double error_factor;
 
     };
 }
