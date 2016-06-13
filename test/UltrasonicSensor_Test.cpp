@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "../source/include/Sensor.hpp"
+#include "CustomSensor.hpp"
 
 using namespace r2d2;
 
