@@ -56,9 +56,14 @@
 #include <memory>
 
 namespace r2d2 {
+    //! \class DistanceSensor
+    //! \brief A class for a sensor that measures distance and returns polarview
     class DistanceSensor : public Sensor<std::unique_ptr<PolarView>> {
 
     public:
+        //! \brief DistanceSensor constructor
+        //!
+        //! \param error The error off the distance serror
         DistanceSensor(double error) : Sensor{ error } {}
     };
 }

@@ -52,14 +52,23 @@
 #include "CoordinateAttitude.hpp"
 
 namespace r2d2 {
+    //! \class Locatable
+    //! \brief A class for a located sensor
     class Locatable {
 
     public:
+        //! \brief The default constructor
+        //! \param coordinate_attitude
         Locatable(CoordinateAttitude coordinate_attitude) :
-        coordinate_attitude{ coordinate_attitude } 
+            coordinate_attitude{ coordinate_attitude } 
         {}
 
-        CoordinateAttitude get_coordinate_attitude() { return coordinate_attitude; }
+        //! \brief returns the coordinate attitude
+        //! 
+        //! \return CoordinateAttitude the coordinate attribute
+        CoordinateAttitude get_coordinate_attitude() { 
+            return coordinate_attitude; 
+        }
 
     protected:
         CoordinateAttitude coordinate_attitude;

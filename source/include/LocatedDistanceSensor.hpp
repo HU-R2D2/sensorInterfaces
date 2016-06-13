@@ -54,9 +54,15 @@
 #include "CoordinateAttitude.hpp"
 
 namespace r2d2 {
+    //! \class LocatedDistanceSensor
+    //! \brief A located distance sensor
     class LocatedDistanceSensor : public DistanceSensor, public Locatable {
     public:
-        LocatedDistanceSensor(double error, CoordinateAttitude coordinate_attitude) :
+        //! \brief Default constructor
+        //! \param error The error for the sensor
+        //! \coordinate_attitude The Coordinate attitude for the locatable
+        LocatedDistanceSensor(double error, 
+            CoordinateAttitude coordinate_attitude) :
             DistanceSensor{ error },
             Locatable{ coordinate_attitude } 
         {}
