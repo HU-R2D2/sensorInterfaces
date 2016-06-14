@@ -9,12 +9,12 @@ TEST(SensorResult, Ints) {
 	int value{ 12 };
 	Sensor<int>::SensorResult s{ 0.0, value };
 	ASSERT_EQ(s.get_value(), 12);
-	ASSERT_EQ(s.get_error_factor(), 0.0);
+	ASSERT_DOUBLE_EQ(s.get_error_factor(), 0.0);
 
 	value = { 15 };
 	s = { 1.0, value };
 	ASSERT_EQ(s.get_value(), 15);
-	ASSERT_EQ(s.get_error_factor(), 1.0);
+	ASSERT_DOUBLE_EQ(s.get_error_factor(), 1.0);
 }
 
 TEST(SensorResult, Floats) {
@@ -25,6 +25,6 @@ TEST(SensorResult, Floats) {
 
 	value = { 0.123f };
 	s = { 1.0, value };
-	ASSERT_EQ(s.get_value(), 0.123f);
-	ASSERT_EQ(s.get_error_factor(), 1.0);
+	ASSERT_FLOAT_EQ(s.get_value(), 0.123f);
+	ASSERT_DOUBLE_EQ(s.get_error_factor(), 1.0);
 }
