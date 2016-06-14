@@ -61,6 +61,8 @@
 #include "CoordinateAttitude.hpp"
 #include "hwlib.h"
 
+// #define HWLIB_ENABLED
+
 #include <exception>
 
 namespace r2d2 {

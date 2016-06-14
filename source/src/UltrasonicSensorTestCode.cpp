@@ -36,19 +36,29 @@
 
 #include <iostream>
 
-#include "hwlib.c"
+// #define HWLIB_ENABLED
+
+#ifdef HWLIB_ENABLED
+#include "hwlib-impl-rapi-direct.inc"
+#endif
 #include "MapPolarView.hpp"
 #include "DistanceReading.hpp"
 
 
 int main() {
+    int signal_pin = 0;
+    int echo_pin = 0;
+    
+    #ifdef HWLIB_ENABLED
     bcm2835_init();
+    signal_pin = RPI_V2_GPIO_P1_18;
+    echo_pin = RPI_V2_GPIO_P1_18;
+    #endif
     r2d2::CoordinateAttitude coord_attitude = r2d2::CoordinateAttitude();
     r2d2::UltrasonicSensor u(
-        0, coord_attitude, RPI_V2_GPIO_P1_18, RPI_V2_GPIO_P1_18);
+        0, coord_attitude, signal_pin, echo_pin);
     
     while(true) {
-        //std::cout << u.get_distance()*100 << std::endl;
         std::unique_ptr<r2d2::PolarView> polarView = u.get_data().get_value();
 
         r2d2::DistanceReading distanceReading = 
@@ -57,7 +67,7 @@ int main() {
         if (distanceReading.get_result_type() == 
             r2d2::DistanceReading::ResultType::CHECKED) {
 
-            std::cout << distanceReading.get_length()*100 << std::endl;
+            std::cout << distanceReading.get_length() << std::endl;
 
         } else if (distanceReading.get_result_type() ==
             r2d2::DistanceReading::ResultType::DIDNT_CHECK) {
@@ -68,9 +78,6 @@ int main() {
 
             std::cout << "=== Out of range ===" << std::endl;
         }
-
-        //std::cout << u.get_data().get_value()->get_distance(coord_attitude.get_attitude().get_yaw()).get_length()*100 << std::endl;
-        wait_us(210);
     }
     return 0;
 }
