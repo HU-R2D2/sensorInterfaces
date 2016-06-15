@@ -1,27 +1,33 @@
 #include "gtest/gtest.h"
 #include "../source/include/UltrasonicSensor.hpp"
+#include <chrono>
+#include <thread>
 
 using namespace r2d2;
 
-//static UltrasonicSensor* u = nullptr;
-//
-//TEST(UltrasonicSensor, Initialization) {
-//u = new UltrasonicSensor(0.0f, 0, 0, 0);
-//}
-//
-//TEST(UltrasonicSensor, DistanceTests) { // Get_distance() starts at 2 and is multiplied by two everytime it gets called
-//r2d2::Length l = u->get_distance();
-//ASSERT_LT(l, 2.1f * r2d2::Length::CENTIMETER);
-//ASSERT_GT(l, 1.9f * r2d2::Length::CENTIMETER);
-//l = u->get_distance();
-//ASSERT_LT(l, 4.1f * r2d2::Length::CENTIMETER);
-//ASSERT_GT(l, 3.9f * r2d2::Length::CENTIMETER);
-//l = u->get_distance();
-//ASSERT_LT(l, 8.1f * r2d2::Length::CENTIMETER);
-//ASSERT_GT(l, 7.9f * r2d2::Length::CENTIMETER);
-//}
-//
-//TEST(UltrasonicSensor, Cleanup) {
-//delete u;
-//u = nullptr;
-//}
+TEST(UltrasonicSensor, LinearMeasurements) {
+	UltrasonicSensor uss{ 0.1, CoordinateAttitude{},0,0 };
+	// Needed as the last time is set when constructing the object
+	std::this_thread::sleep_for(std::chrono::microseconds(210));
+	Length l = uss.get_distance();
+	ASSERT_FALSE(l > 1 * Length::CENTIMETER);
+	ASSERT_FALSE(l < 1 * Length::CENTIMETER);
+	std::this_thread::sleep_for(std::chrono::microseconds(210));
+	l = uss.get_distance();
+	ASSERT_FALSE(l > 2 * Length::CENTIMETER);
+	ASSERT_FALSE(l < 2 * Length::CENTIMETER);
+	std::this_thread::sleep_for(std::chrono::microseconds(210));
+	l = uss.get_distance();
+	ASSERT_FALSE(l > 3 * Length::CENTIMETER);
+	ASSERT_FALSE(l < 3 * Length::CENTIMETER);
+}
+
+TEST(UltrasonicSensor, TooFastMeasuring) {
+	UltrasonicSensor uss{ 0.1, CoordinateAttitude{},0,0 };
+	// Needed as the last time is set when constructing the object
+	std::this_thread::sleep_for(std::chrono::microseconds(210));
+	Length l = uss.get_distance();
+	ASSERT_FALSE(l > 4 * Length::CENTIMETER);
+	ASSERT_FALSE(l < 4 * Length::CENTIMETER);
+	ASSERT_THROW(uss.get_distance(), ReadingFailedException);
+}
