@@ -48,17 +48,21 @@
 
 #include "LocatedDistanceSensor.hpp"
 #include "LockingSharedObject.hpp"
-#include "ArrayBoxMap.hpp"
+#include "RStarMap.hpp"
 
 namespace r2d2 {
 
 class VirtualUltrasonicSensor : public LocatedDistanceSensor {
 public:
-    VirtualUltrasonicSensor(LockingSharedObject<ArrayBoxMap>& map);
+    VirtualUltrasonicSensor(
+            LockingSharedObject<RStarMap>& map,
+            const CoordinateAttitude& position);
 
    DistanceSensor::SensorResult get_data();
 private:
-    LockingSharedObject<ArrayBoxMap>& map;
+    LockingSharedObject<RStarMap>& map;
+    const Length accuracy = 0.1 * Length::METER;
+    const Length max_range = 4 * Length::METER;
 };
 
 }
