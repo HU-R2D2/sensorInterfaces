@@ -20,7 +20,7 @@ namespace r2d2 {
                 value{ std::move(value) } {}
 
          double get_error_factor() { return error_factor; }
-         T get_value() { return value; }
+         T get_value() { return std::move(value); }
 
       private:
          double error_factor;
