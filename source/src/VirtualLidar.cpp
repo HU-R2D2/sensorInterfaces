@@ -44,77 +44,79 @@
 // ~< HEADER_VERSION 2016 04 12 >~
 
 #include "../include/VirtualLidar.hpp"
+#include "Box.hpp"
+#include "MapPolarView.hpp"
 
 #include <cmath>
 #include <limits>
 
-
-class Point {
-public:
-    double x;
-    double y;
-    Point(double x, double y) : x(x), y(y) {}
-    static double distance(const Point& a, const Point& b) {
-        return std::sqrt((b.x-a.x)*(b.x-a.x) + (b.y-a.y)*(b.y-a.y));
-    }
-};
-
-r2d2::VirtualLidar::VirtualLidar(LockingSharedObject<ArrayBoxMap>& map, CoordinateAttitude position) :
+r2d2::VirtualLidar::VirtualLidar(
+        LockingSharedObject<RStarMap>& map,
+        const CoordinateAttitude& position) :
     LocatedDistanceSensor(0, position),
     map(map)
 {
 }
 
-Point calculatePointOnBoundary(Point topLeft, Point bottomRight, Point start, r2d2::Angle angle)
-{
-    // Calculate intersections with box walls
-    double vx = std::cos(angle.get_angle());
-    double vy = std::sin(angle.get_angle());
+r2d2::DistanceSensor::SensorResult r2d2::VirtualLidar::get_data() {
+    std::unique_ptr<PolarView> polarView(new r2d2::MapPolarView());
 
-    double t1 = (topLeft.x - start.x) / vx; //left
-    double t2 = (bottomRight.x - start.x) / vx; //right
-    double t3 = (topLeft.y - start.y) / vy; //top
-    double t4 = (bottomRight.y - start.y) / vy; //bottom
+    // Lock map, unlocks automatically at end of scope
+    LockingSharedObject<RStarMap>::Accessor accessor(map);
 
-    double t = std::numeric_limits<double>::max();
+    Coordinate origin = coordinate_attitude.getCoordinate();
 
-    if(t1 >= 0 && t1 < t)
-        t = t1;
-    if(t2 >= 0 && t2 < t)
-        t = t2;
-    if(t3 >= 0 && t3 < t)
-        t = t3;
-    if(t4 >= 0 && t4 < t)
-        t = t4;
+    // Scan 360 degrees
+    //
+    // Calculate new point from point and vector
+    // x = start_x + len * cos(angle);
+    // y = start_y + len * sin(angle);
+    //
+    // angle must be in radians so
+    // radians = degrees*(PI/180)
+    for(int angle = 0; angle < 360; angle++) {
+        Coordinate p(
+                    origin.get_x() + max_range*std::cos(angle*(M_PI/180)),
+                    origin.get_y() + max_range*std::sin(angle*(M_PI/180)),
+                    origin.get_z());
 
-    return Point(start.x+t*vx, start.y+t*vy);
-}
+        Coordinate lastCoordinate = coordinate_attitude.getCoordinate();
 
-r2d2::DistanceSensor::SensorResult r2d2::VirtualLidar::get_data()
-{
-    std::unique_ptr<PolarView> polarView(new MapPolarView());
-    r2d2::DistanceSensor::SensorResult returnValue(0, polarView);
+        double totalSteps = max_range/accuracy;
 
-    // Lock map
-    LockingSharedObject<ArrayBoxMap>::Accessor accessor(map);
-    const Box boundingBox = accessor.access().get_map_bounding_box();
-    const Point topLeft(boundingBox.get_bottom_left().get_x() / Length::METER, boundingBox.get_top_right().get_y() / Length::METER);
-    const Point topRight(boundingBox.get_top_right().get_x() / Length::METER, boundingBox.get_top_right().get_y() / Length::METER);
-    const Point bottomLeft(boundingBox.get_bottom_left().get_x() / Length::METER, boundingBox.get_bottom_left().get_y() / Length::METER);
-    const Point bottomRight(boundingBox.get_top_right().get_x() / Length::METER, boundingBox.get_bottom_left().get_y() / Length::METER);
+        // Follow laser from begin to end with stepsize accuracy and check if
+        // there is an obstacle
+        for (int j = 1; j <= totalSteps; j++) {
+            Length subLength = j*accuracy;
 
-    Point middle(coordinate_attitude.getCoordinate().get_x() / Length::METER, coordinate_attitude.getCoordinate().get_y() / Length::METER);
+            // Calculate new point on line with distance subLength
+            Coordinate newCoordinate(
+                        origin.get_x() + subLength*std::cos(angle*(M_PI/180)),
+                        origin.get_y() + subLength*std::sin(angle*(M_PI/180)),
+                        origin.get_z());
 
-    // scan 360 degrees
-    for(int i = 0; i < 1; i++) {
-        Point p = calculatePointOnBoundary(topLeft, bottomRight, middle, i*Angle::deg);
-//        std::cout << i << ": (" << p.x << ", " << p.y << ")" << std::endl;
+            Box fieldToCheck(lastCoordinate, newCoordinate);
+            BoxInfo boxInfo = accessor.access().get_box_info(fieldToCheck);
 
-        double angle = i;
-        double length = Point::distance(p, middle);
-        std::cout << length << std::endl;
+            if(boxInfo.get_has_obstacle()) {
+                polarView->add_distancereading(
+                            angle * Angle::deg,
+                            DistanceReading(
+                                subLength,
+                                DistanceReading::ResultType::CHECKED));
+                break;
+            }
+            else if(j == totalSteps) {
+                polarView->add_distancereading(
+                            angle * Angle::deg,
+                            DistanceReading(
+                                -1 * Length::METER,
+                                DistanceReading::ResultType::OUT_OF_RANGE));
+            }
+
+            lastCoordinate = newCoordinate;
+        }
     }
 
-    // Unlock map automatically
-    return returnValue;
+    return r2d2::DistanceSensor::SensorResult(0, polarView);
 }

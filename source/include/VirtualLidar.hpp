@@ -48,18 +48,21 @@
 
 #include "LocatedDistanceSensor.hpp"
 #include "LockingSharedObject.hpp"
-#include "ArrayBoxMap.hpp"
+#include "RStarMap.hpp"
 
 namespace r2d2 {
 
 class VirtualLidar : public LocatedDistanceSensor {
 public:
-    VirtualLidar(LockingSharedObject<ArrayBoxMap>& map, CoordinateAttitude position);
+    VirtualLidar(
+            LockingSharedObject<RStarMap>& map,
+            const CoordinateAttitude& position);
     
     DistanceSensor::SensorResult get_data();
 private:
-    LockingSharedObject<ArrayBoxMap>& map;
-    const Length accuracy = 1 * Length::CENTIMETER;
+    LockingSharedObject<RStarMap>& map;
+    const Length accuracy = 0.01 * Length::METER;
+    const Length max_range = 10 * Length::METER;
 };
 
 }
