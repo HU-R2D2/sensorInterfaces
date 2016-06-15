@@ -65,7 +65,7 @@ namespace r2d2 {
         #ifndef HWLIB_ENABLED 
         throw ReadingFailedException();  
         #endif
-		  #endif
+        #endif
         
         // If this method gets called within the minimumReadingInterval
         //  since previous call, then throw an exception
@@ -76,7 +76,7 @@ namespace r2d2 {
 
         #ifdef SENSOR_INTERFACES_TEST
         static int test_counts = 0;
-		  lastReadingTimeStamp = Clock::get_current_time();
+        lastReadingTimeStamp = Clock::get_current_time();
         ++test_counts;
         return test_counts * Length::CENTIMETER;
         #else
