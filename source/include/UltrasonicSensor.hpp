@@ -61,6 +61,12 @@
 #include "CoordinateAttitude.hpp"
 #include "hwlib.h"
 
+// If we want to compile this code on a system supported by hwlib, then we have 
+// to uncomment the define below. There's a check for this define in 
+// "get_distance()" that will throw an exception if not defined. This way the 
+// code will also be able to compile on non-supported hwlib systems.
+// #define HWLIB_ENABLED
+
 #include <exception>
 
 namespace r2d2 {

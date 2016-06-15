@@ -59,6 +59,12 @@ namespace r2d2 {
 
     Length UltrasonicSensor::get_distance() throw(
         OutOfRangeException, ReadingFailedException) {
+        // If HWLIB_ENABLED was not defined, then we throw a
+        // ReadingFailedException, see .hpp for more info
+        #ifndef HWLIB_ENABLED 
+        throw ReadingFailedException();  
+        #endif
+        
         // If this method gets called within the minimumReadingInterval
         //  since previous call, then throw an exception
         if ((Clock::get_current_time() - 
