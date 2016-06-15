@@ -64,7 +64,7 @@ r2d2::DistanceSensor::SensorResult r2d2::VirtualLidar::get_data() {
     // Lock map, unlocks automatically at end of scope
     LockingSharedObject<RStarMap>::Accessor accessor(map);
 
-    Coordinate origin = coordinate_attitude.getCoordinate();
+    Coordinate origin = coordinate_attitude.get_coordinate();
 
     // Scan 360 degrees
     //
@@ -80,7 +80,7 @@ r2d2::DistanceSensor::SensorResult r2d2::VirtualLidar::get_data() {
                     origin.get_y() + max_range*std::sin(angle*(M_PI/180)),
                     origin.get_z());
 
-        Coordinate lastCoordinate = coordinate_attitude.getCoordinate();
+        Coordinate lastCoordinate = coordinate_attitude.get_coordinate();
 
         double totalSteps = max_range/accuracy;
 

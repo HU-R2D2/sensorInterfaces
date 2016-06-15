@@ -63,7 +63,7 @@ r2d2::DistanceSensor::SensorResult r2d2::VirtualUltrasonicSensor::get_data() {
 
     // Scan on only one angle
     double angle = 45;
-    Coordinate origin = coordinate_attitude.getCoordinate();
+    Coordinate origin = coordinate_attitude.get_coordinate();
 
     // Calculate new point from point and vector
     // x = start_x + len * cos(angle);
@@ -78,7 +78,7 @@ r2d2::DistanceSensor::SensorResult r2d2::VirtualUltrasonicSensor::get_data() {
 
     double totalSteps = max_range/accuracy;
 
-    Coordinate lastCoordinate = coordinate_attitude.getCoordinate();
+    Coordinate lastCoordinate = coordinate_attitude.get_coordinate();
 
     // Follow the soundwave from begin to end with stepsize accuracy and check
     // if there is an obstacle
