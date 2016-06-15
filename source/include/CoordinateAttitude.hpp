@@ -23,7 +23,6 @@ public:
 
     Coordinate getCoordinate() { return coordinate; }
     Attitude getAttitude() { return attitude; }
-
 };
 
 }
