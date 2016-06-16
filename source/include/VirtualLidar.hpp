@@ -48,19 +48,27 @@
 
 #include "LocatedDistanceSensor.hpp"
 #include "LockingSharedObject.hpp"
-#include "RStarMap.hpp"
+#include "MapInterface.hpp"
 
 namespace r2d2 {
 
+//!
+//! \brief  VirtualLidar simulates a physical lidar using a known Map.
+//!
 class VirtualLidar : public LocatedDistanceSensor {
 public:
+    //!
+    //! \brief Default Constructor
+    //! \param map The map to scan from
+    //! \param position The position of the sensor on the map
+    //!
     VirtualLidar(
-            LockingSharedObject<RStarMap>& map,
+            LockingSharedObject<ReadOnlyMap>& map,
             const CoordinateAttitude& position);
     
     DistanceSensor::SensorResult get_data();
 private:
-    LockingSharedObject<RStarMap>& map;
+    LockingSharedObject<ReadOnlyMap>& map;
     const Length accuracy = 0.01 * Length::METER;
     const Length max_range = 10 * Length::METER;
 };

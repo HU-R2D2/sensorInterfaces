@@ -51,7 +51,7 @@
 #include <limits>
 
 r2d2::VirtualLidar::VirtualLidar(
-        LockingSharedObject<RStarMap>& map,
+        LockingSharedObject<ReadOnlyMap>& map,
         const CoordinateAttitude& position) :
     LocatedDistanceSensor(0, position),
     map(map)
@@ -62,7 +62,7 @@ r2d2::DistanceSensor::SensorResult r2d2::VirtualLidar::get_data() {
     std::unique_ptr<PolarView> polarView(new r2d2::MapPolarView());
 
     // Lock map, unlocks automatically at end of scope
-    LockingSharedObject<RStarMap>::Accessor accessor(map);
+    LockingSharedObject<ReadOnlyMap>::Accessor accessor(map);
 
     Coordinate origin = coordinate_attitude.get_coordinate();
 
