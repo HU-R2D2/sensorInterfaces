@@ -41,7 +41,7 @@
 
 #include "../source/include/VirtualUltrasonicSensor.hpp"
 #include "LockingSharedObject.hpp"
-#include "RStarMap.hpp"
+#include "../map/source/include/RStarMap.hpp"
 
 // ostream operator for std::unique_ptr<PolarView>
 std::ostream& operator<<(
