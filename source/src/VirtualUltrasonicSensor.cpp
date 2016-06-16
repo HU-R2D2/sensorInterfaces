@@ -7,8 +7,8 @@
 //! \author Jeroen Steendam 1607288
 //! \date   Created: 09-06-2016
 //! \date   Last Modified: 09-06-2016
-//! \brief  VirtualUltrasonicSensor simulates a physical ultrasonic sensor using a Map.
-//!
+//! \brief  VirtualUltrasonicSensor simulates a physical ultrasonic sensor
+//!         using a Map.
 //! <Detailed description of file>
 //!
 //! \copyright Copyright © 2016, HU University of Applied Sciences Utrecht.
@@ -82,7 +82,7 @@ r2d2::DistanceSensor::SensorResult r2d2::VirtualUltrasonicSensor::get_data() {
 
     // Follow the soundwave from begin to end with stepsize accuracy and check
     // if there is an obstacle
-    for(int i = 0; i <= totalSteps; i++) {
+    for(int i = 0; i <= totalSteps; ++i) {
         Length subLength = i*accuracy;
 
         // Calculate new point on line with distance subLength
@@ -103,6 +103,8 @@ r2d2::DistanceSensor::SensorResult r2d2::VirtualUltrasonicSensor::get_data() {
             break;
         }
         else if(i == totalSteps) {
+            // The ResultType is OUT_OF_RANGE so the distance is -1 meter
+            // so it can't be mistaken for a CHECKED distance.
             polarView->add_distancereading(
                         angle * Angle::deg,
                         DistanceReading(
