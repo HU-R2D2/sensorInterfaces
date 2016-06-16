@@ -67,7 +67,7 @@ r2d2::RStarMap getMap() {
 TEST(VirtualLidarTest, GetData) {
     r2d2::RStarMap map = getMap();
 
-    LockingSharedObject<r2d2::RStarMap> sharedObject(map);
+    LockingSharedObject<r2d2::ReadOnlyMap> sharedObject(map);
 
     r2d2::Coordinate coordinate(
                 0 * r2d2::Length::METER,
@@ -85,7 +85,7 @@ TEST(VirtualLidarTest, GetData) {
 TEST(VirtualUltrasonicSensorTest, GetData) {
     r2d2::RStarMap map = getMap();
 
-    LockingSharedObject<r2d2::RStarMap> sharedObject(map);
+    LockingSharedObject<r2d2::ReadOnlyMap> sharedObject(map);
 
     r2d2::Coordinate coordinate(
                 0 * r2d2::Length::METER,

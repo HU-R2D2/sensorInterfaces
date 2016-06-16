@@ -1,5 +1,6 @@
 #include "../source/include/VirtualUltrasonicSensor.hpp"
 #include "LockingSharedObject.hpp"
+#include "RStarMap.hpp"
 
 // ostream operator for std::unique_ptr<PolarView>
 std::ostream& operator<<(
@@ -88,7 +89,7 @@ int main() {
     r2d2::RStarMap map;
     map.load(file_name);
 
-    LockingSharedObject<r2d2::RStarMap> sharedObject(map);
+    LockingSharedObject<r2d2::ReadOnlyMap> sharedObject(map);
 
     r2d2::Coordinate coordinate(
                 0 * r2d2::Length::METER,
