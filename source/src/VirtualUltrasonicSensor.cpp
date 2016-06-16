@@ -62,7 +62,7 @@ r2d2::DistanceSensor::SensorResult r2d2::VirtualUltrasonicSensor::get_data() {
     LockingSharedObject<ReadOnlyMap>::Accessor accessor(map);
 
     // Scan on only one angle
-    double angle = 45;
+    double angle = coordinate_attitude.get_attitude().get_yaw()/Angle::deg;
     Coordinate origin = coordinate_attitude.get_coordinate();
 
     // Calculate new point from point and vector

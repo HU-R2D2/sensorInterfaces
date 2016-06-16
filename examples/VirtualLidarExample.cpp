@@ -86,13 +86,15 @@ r2d2::RStarMap getMap() {
 }
 
 int main() {
-    using namespace r2d2;
     r2d2::RStarMap map;
     map.load(file_name);
 
     LockingSharedObject<r2d2::ReadOnlyMap> sharedObject(map);
 
-    r2d2::Coordinate coordinate(-3*r2d2::Length::METER, 3*r2d2::Length::METER, 1*r2d2::Length::METER);
+    r2d2::Coordinate coordinate(
+                -3 * r2d2::Length::METER,
+                3 * r2d2::Length::METER,
+                1 * r2d2::Length::METER);
     r2d2::CoordinateAttitude position(coordinate, r2d2::Attitude());
     r2d2::VirtualLidar lidar(sharedObject, position);
     r2d2::DistanceSensor::SensorResult result = lidar.get_data();

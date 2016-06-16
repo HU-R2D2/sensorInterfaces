@@ -95,7 +95,10 @@ int main() {
                 0 * r2d2::Length::METER,
                 0 * r2d2::Length::METER,
                 1 * r2d2::Length::METER);
-    r2d2::CoordinateAttitude position(coordinate, r2d2::Attitude());
+    r2d2::CoordinateAttitude position(coordinate, r2d2::Attitude(
+                                          0 * r2d2::Angle::deg,
+                                          45 * r2d2::Angle::deg,
+                                          0 * r2d2::Angle::deg));
     r2d2::VirtualUltrasonicSensor sonar(sharedObject, position);
     r2d2::DistanceSensor::SensorResult result = sonar.get_data();
 
