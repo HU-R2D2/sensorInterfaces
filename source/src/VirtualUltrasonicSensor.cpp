@@ -48,7 +48,7 @@
 #include "Box.hpp"
 
 r2d2::VirtualUltrasonicSensor::VirtualUltrasonicSensor(
-        LockingSharedObject<RStarMap>& map,
+        LockingSharedObject<ReadOnlyMap>& map,
         const CoordinateAttitude& position) :
     LocatedDistanceSensor(0, position),
     map(map) {
@@ -59,7 +59,7 @@ r2d2::DistanceSensor::SensorResult r2d2::VirtualUltrasonicSensor::get_data() {
     std::unique_ptr<PolarView> polarView(new r2d2::MapPolarView());
 
     // Lock map, unlocks automatically at end of scope
-    LockingSharedObject<RStarMap>::Accessor accessor(map);
+    LockingSharedObject<ReadOnlyMap>::Accessor accessor(map);
 
     // Scan on only one angle
     double angle = 45;

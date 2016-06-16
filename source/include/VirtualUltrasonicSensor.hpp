@@ -7,7 +7,8 @@
 //! \author Jeroen Steendam 1607288
 //! \date   Created: 09-06-2016
 //! \date   Last Modified: 09-06-2016
-//! \brief  VirtualUltrasonicSensor simulates a physical ultrasonic sensor using a Map.
+//! \brief  VirtualUltrasonicSensor simulates a physical ultrasonic sensor using
+//!         a Map.
 //!
 //! <Detailed description of file>
 //!
@@ -48,19 +49,28 @@
 
 #include "LocatedDistanceSensor.hpp"
 #include "LockingSharedObject.hpp"
-#include "RStarMap.hpp"
+#include "MapInterface.hpp"
 
 namespace r2d2 {
 
+//!
+//! \brief VirtualUltrasonicSensor simulates a physical ultrasonic sensor
+//! using a known Map.
+//!
 class VirtualUltrasonicSensor : public LocatedDistanceSensor {
 public:
+    //!
+    //! \brief Default Constructor
+    //! \param map The map to scan from
+    //! \param position The position of the sensor on the map
+    //!
     VirtualUltrasonicSensor(
-            LockingSharedObject<RStarMap>& map,
+            LockingSharedObject<ReadOnlyMap>& map,
             const CoordinateAttitude& position);
 
    DistanceSensor::SensorResult get_data();
 private:
-    LockingSharedObject<RStarMap>& map;
+    LockingSharedObject<ReadOnlyMap>& map;
     const Length accuracy = 0.1 * Length::METER;
     const Length max_range = 4 * Length::METER;
 };
