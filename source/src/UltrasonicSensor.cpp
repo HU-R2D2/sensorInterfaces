@@ -61,8 +61,10 @@ namespace r2d2 {
         OutOfRangeException, ReadingFailedException) {
         // If HWLIB_ENABLED was not defined, then we throw a
         // ReadingFailedException, see .hpp for more info
+        #ifndef SENSOR_INTERFACES_TEST
         #ifndef HWLIB_ENABLED 
         throw ReadingFailedException();  
+        #endif
         #endif
         
         // If this method gets called within the minimumReadingInterval
@@ -71,6 +73,13 @@ namespace r2d2 {
             lastReadingTimeStamp) < minimumReadingInterval) {
             throw ReadingFailedException();
         }
+
+        #ifdef SENSOR_INTERFACES_TEST
+        static int test_counts = 0;
+        lastReadingTimeStamp = Clock::get_current_time();
+        ++test_counts;
+        return test_counts * Length::CENTIMETER;
+        #else
 
         // Set the signal pin direction to output
         pin_direction_set_output(signal);
@@ -149,6 +158,8 @@ namespace r2d2 {
         // If the distance was within the minimum - maximum range, 
         // we return the distance
         return distance;
+
+        #endif
     }
 
     void UltrasonicSensor::set_temperature(double temperature) {

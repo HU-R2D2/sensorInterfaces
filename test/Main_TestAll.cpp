@@ -28,6 +28,7 @@
 // OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // ++--++
 #include <limits.h>
+#define _SENSOR_INTERFACES_TEST_
 #include "gtest/gtest.h"
 
 int main(int argc, char **argv) {

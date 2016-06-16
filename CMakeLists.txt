@@ -6,7 +6,6 @@ file(GLOB SOURCES "source/src/*.cpp" "source/include/*.hpp")
 file(GLOB SOURCES_GTEST "source/src/*.cpp" "source/include/*.hpp" "test/*.cpp" "test/*.hpp")
 file(GLOB SOURCES_EXAMPLE_LIDAR "examples/VirtualLidarExample.cpp")
 file(GLOB SOURCES_EXAMPLE_SONAR "examples/VirtualUltrasonicSensorExample.cpp")
-
 file(GLOB INCLUDED_SOURCES "../polarview/source/src/*.cpp" "../adt/source/src/*.cpp" "../sharedobjects/source/src/*.cpp" "../map/source/src/*.cpp")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11 -Wall")
@@ -33,4 +32,5 @@ add_executable(virtual_lidar_example ${SOURCES_EXAMPLE_LIDAR} ${SOURCES} ${INCLU
 add_executable(virtual_sonar_example ${SOURCES_EXAMPLE_SONAR} ${SOURCES} ${INCLUDED_SOURCES})
 add_executable(sensor_test ${GTEST} ${SOURCES_GTEST} ${INCLUDED_SOURCES})
 
+add_definitions(-DSENSOR_INTERFACES_TEST) # For GTEST only
 target_link_libraries(sensor_test gtest gtest_main ${CMAKE_THREAD_LIBS_INIT})
