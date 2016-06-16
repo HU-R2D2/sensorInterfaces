@@ -41,7 +41,7 @@
 
 #include "../source/include/VirtualLidar.hpp"
 #include "LockingSharedObject.hpp"
-#include "../map/source/include/RStarMap.hpp"
+#include "RStarMap.hpp"
 
 // ostream operator for std::unique_ptr<PolarView>
 std::ostream& operator<<(
