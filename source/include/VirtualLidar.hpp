@@ -67,10 +67,38 @@ public:
             const CoordinateAttitude& position);
     
     DistanceSensor::SensorResult get_data();
+
+    //!
+    //! \brief set_accuracy Sets a new accuracy
+    //! \param new_accuracy The new accuracy
+    //!
+    void set_accuracy(const Length& new_accuracy) {
+        accuracy = new_accuracy;
+    }
+
+    //!
+    //! \brief set_max_range Sets a new max_range
+    //! \param new_max_range The new max_range
+    //!
+    void set_max_range(const Length& new_max_range) {
+        max_range = new_max_range;
+    }
+
+    //!
+    //! \brief get_accuracy
+    //! \returns the sensors accuracy
+    //!
+    Length get_accuracy() { return accuracy; }
+
+    //!
+    //! \brief get_accuracy
+    //! \returns the sensors max range
+    //!
+    Length get_max_range() { return max_range; }
 private:
     LockingSharedObject<ReadOnlyMap>& map;
-    const Length accuracy = 0.01 * Length::METER;
-    const Length max_range = 10 * Length::METER;
+    Length accuracy = 0.01 * Length::METER;
+    Length max_range = 10 * Length::METER;
 };
 
 }
