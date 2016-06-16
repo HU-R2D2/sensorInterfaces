@@ -74,7 +74,7 @@ r2d2::DistanceSensor::SensorResult r2d2::VirtualLidar::get_data() {
     //
     // angle must be in radians so
     // radians = degrees*(PI/180)
-    for(int angle = 0; angle < 360; angle++) {
+    for(int angle = 0; angle < 360; ++angle) {
         Coordinate p(
                     origin.get_x() + max_range*std::cos(angle*(M_PI/180)),
                     origin.get_y() + max_range*std::sin(angle*(M_PI/180)),
@@ -107,6 +107,8 @@ r2d2::DistanceSensor::SensorResult r2d2::VirtualLidar::get_data() {
                 break;
             }
             else if(j == totalSteps) {
+                // The ResultType is OUT_OF_RANGE so the distance is -1 meter
+                // so it can't be mistaken for a CHECKED distance.
                 polarView->add_distancereading(
                             angle * Angle::deg,
                             DistanceReading(
